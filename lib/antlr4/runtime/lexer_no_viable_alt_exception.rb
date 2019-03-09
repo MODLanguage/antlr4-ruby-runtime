@@ -1,0 +1,2 @@
+class LexerNoViableAltException < StandardError
+end
