@@ -1,28 +1,29 @@
-require '../antlr4/transition'
+module Antlr4::Runtime
 
-class SetTransition < Transition
-  attr_reader :set
+  class SetTransition < Transition
+    attr_reader :set
 
-  def initialize(target, set)
-    super(target)
-    set = IntervalSet.of(Token::INVALID_TYPE) if set.nil?
+    def initialize(target, set)
+      super(target)
+      set = IntervalSet.of(Token::INVALID_TYPE) if set.nil?
 
-    @set = set
-  end
+      @set = set
+    end
 
-  def serialization_type
-    SET
-  end
+    def serialization_type
+      SET
+    end
 
-  def label
-    @set
-  end
+    def label
+      @set
+    end
 
-  def matches(symbol, _min_vocab_symbol, _max_vocab_symbol)
-    @set.contains(symbol)
-  end
+    def matches(symbol, _min_vocab_symbol, _max_vocab_symbol)
+      @set.contains(symbol)
+    end
 
-  def to_s
-    @set.to_s
+    def to_s
+      @set.to_s
+    end
   end
 end

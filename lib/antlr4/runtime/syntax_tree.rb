@@ -1,3 +1,4 @@
-require '../antlr4/tree'
-class SyntaxTree < Tree
+module Antlr4::Runtime
+  class SyntaxTree < Tree
+  end
 end

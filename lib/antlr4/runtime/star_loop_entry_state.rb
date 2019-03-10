@@ -1,13 +1,14 @@
-require '../antlr4/decision_state'
+module Antlr4::Runtime
 
-class StarLoopEntryState < DecisionState
-  attr_accessor :loopback_state
-  @loopback_state = nil
+  class StarLoopEntryState < DecisionState
+    attr_accessor :loopback_state
+    @loopback_state = nil
 
-  attr_accessor :is_precedence_pecision
-  @is_precedence_pecision = false
+    attr_accessor :is_precedence_pecision
+    @is_precedence_pecision = false
 
-  def state_type
-    STAR_LOOP_ENTRY
+    def state_type
+      STAR_LOOP_ENTRY
+    end
   end
 end

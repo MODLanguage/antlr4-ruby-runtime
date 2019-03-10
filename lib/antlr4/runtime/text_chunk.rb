@@ -1,15 +1,16 @@
-require '../antlr4/chunk'
+module Antlr4::Runtime
 
-class TextChunk < Chunk
-  attr_reader :text
+  class TextChunk < Chunk
+    attr_reader :text
 
-  def initialize(text)
-    raise IllegalArgumentException, 'text cannot be null' if text.nil?
+    def initialize(text)
+      raise IllegalArgumentException, 'text cannot be null' if text.nil?
 
-    @text = text
-  end
+      @text = text
+    end
 
-  def to_s
-    "'" + @text + "'"
+    def to_s
+      "'" + @text + "'"
+    end
   end
 end

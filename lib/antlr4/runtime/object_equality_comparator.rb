@@ -1,17 +1,18 @@
-require 'singleton'
+module Antlr4::Runtime
 
-class ObjectEqualityComparator
-  include Singleton
+  class ObjectEqualityComparator
+    include Singleton
 
-  def hash(obj)
-    return 0 if obj.nil?
+    def hash(obj)
+      return 0 if obj.nil?
 
-    obj.hash
-  end
+      obj.hash
+    end
 
-  def equals(a, b)
-    return b.nil? if a.nil?
+    def equals(a, b)
+      return b.nil? if a.nil?
 
-    a.eql?(b)
+      a.eql?(b)
+    end
   end
 end

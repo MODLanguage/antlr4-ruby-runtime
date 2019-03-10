@@ -1,7 +1,8 @@
-require '../antlr4/block_start_state'
+module Antlr4::Runtime
 
-class StarBlockStartState < BlockStartState
-  def state_type
-    STAR_BLOCK_START
+  class StarBlockStartState < BlockStartState
+    def state_type
+      STAR_BLOCK_START
+    end
   end
 end

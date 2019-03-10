@@ -1,4 +1,5 @@
-require '../antlr4/syntax_tree'
+module Antlr4::Runtime
 
-class ParseTree < SyntaxTree
+  class ParseTree < SyntaxTree
+  end
 end

@@ -1,4 +1,5 @@
-require '../antlr4/parse_tree'
+module Antlr4::Runtime
 
-class TerminalNode < ParseTree
+  class TerminalNode < ParseTree
+  end
 end

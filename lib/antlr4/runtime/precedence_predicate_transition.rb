@@ -1,30 +1,31 @@
-require '../antlr4/abstract_predicate_transition'
+module Antlr4::Runtime
 
-class PrecedencePredicateTransition < AbstractPredicateTransition
-  attr_reader :precedence
+  class PrecedencePredicateTransition < AbstractPredicateTransition
+    attr_reader :precedence
 
-  def initialize(target, precedence)
-    super(target)
-    @precedence = precedence
-  end
+    def initialize(target, precedence)
+      super(target)
+      @precedence = precedence
+    end
 
-  def serialization_type
-    PRECEDENCE
-  end
+    def serialization_type
+      PRECEDENCE
+    end
 
-  def epsilon?
-    true
-  end
+    def epsilon?
+      true
+    end
 
-  def matches(_symbol, _min_vocab_symbol, _max_vocab_symbol)
-    false
-  end
+    def matches(_symbol, _min_vocab_symbol, _max_vocab_symbol)
+      false
+    end
 
-  def predicate
-    SemanticContext.PrecedencePredicate.new(@precedence)
-  end
+    def predicate
+      SemanticContext.PrecedencePredicate.new(@precedence)
+    end
 
-  def to_s
-    @precedence + ' >= _p'
+    def to_s
+      @precedence + ' >= _p'
+    end
   end
 end

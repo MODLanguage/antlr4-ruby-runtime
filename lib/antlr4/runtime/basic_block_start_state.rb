@@ -1,7 +1,8 @@
-require '../antlr4/block_start_state'
+module Antlr4::Runtime
 
-class BasicBlockStartState < BlockStartState
-  def state_type
-    BLOCK_START
+  class BasicBlockStartState < BlockStartState
+    def state_type
+      BLOCK_START
+    end
   end
 end

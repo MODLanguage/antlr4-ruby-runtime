@@ -1,2 +1,4 @@
-class LexerNoViableAltException < StandardError
+module Antlr4::Runtime
+  class LexerNoViableAltException < StandardError
+  end
 end

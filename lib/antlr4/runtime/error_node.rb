@@ -1,4 +1,5 @@
-require '../antlr4/terminal_node'
+module Antlr4::Runtime
 
-class ErrorNode < TerminalNode
+  class ErrorNode < TerminalNode
+  end
 end

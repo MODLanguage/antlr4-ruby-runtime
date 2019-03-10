@@ -1,10 +1,11 @@
-require '../antlr4/block_start_state'
+module Antlr4::Runtime
 
-class PlusBlockStartState < BlockStartState
-  attr_accessor :loopback_state
-  @loopback_state = nil
+  class PlusBlockStartState < BlockStartState
+    attr_accessor :loopback_state
+    @loopback_state = nil
 
-  def state_type
-    PLUS_BLOCK_START
+    def state_type
+      PLUS_BLOCK_START
+    end
   end
 end

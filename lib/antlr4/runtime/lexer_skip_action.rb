@@ -1,32 +1,32 @@
-require '../antlr4/lexer_action'
-require 'singleton'
+module Antlr4::Runtime
 
-class LexerSkipAction < LexerAction
-  include Singleton
+  class LexerSkipAction < LexerAction
+    include Singleton
 
-  def action_type
-    LexerActionType::SKIP
-  end
+    def action_type
+      LexerActionType::SKIP
+    end
 
-  def position_dependent?
-    false
-  end
+    def position_dependent?
+      false
+    end
 
-  def execute(lexer)
-    lexer.skip
-  end
+    def execute(lexer)
+      lexer.skip
+    end
 
-  def hash
-    hashcode = 0
-    hashcode = MurmurHash.update_int(hashcode, action_type)
-    MurmurHash.finish(hashcode, 1)
-  end
+    def hash
+      hashcode = 0
+      hashcode = MurmurHash.update_int(hashcode, action_type)
+      MurmurHash.finish(hashcode, 1)
+    end
 
-  def eql?(other)
-    other == self
-  end
+    def eql?(other)
+      other == self
+    end
 
-  def to_s
-    'skip'
+    def to_s
+      'skip'
+    end
   end
 end

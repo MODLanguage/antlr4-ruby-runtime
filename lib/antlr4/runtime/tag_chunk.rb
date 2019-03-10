@@ -1,21 +1,22 @@
-require '../antlr4/chunk'
+module Antlr4::Runtime
 
-class TagChunk < Chunk
-  attr_reader :tag
-  attr_reader :label
+  class TagChunk < Chunk
+    attr_reader :tag
+    attr_reader :label
 
-  def initialize(label, tag)
-    if tag.nil? || tag.empty?
-      raise IllegalArgumentException, 'tag cannot be nil or empty'
+    def initialize(label, tag)
+      if tag.nil? || tag.empty?
+        raise IllegalArgumentException, 'tag cannot be nil or empty'
+      end
+
+      @label = label
+      @tag = tag
     end
 
-    @label = label
-    @tag = tag
-  end
+    def to_s
+      return @label + ':' + @tag unless @label.nil?
 
-  def to_s
-    return @label + ':' + @tag unless @label.nil?
-
-    @tag
+      @tag
+    end
   end
 end

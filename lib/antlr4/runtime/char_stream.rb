@@ -1,3 +1,4 @@
-require '../antlr4/int_stream'
-class CharStream < IntStream
+module Antlr4::Runtime
+  class CharStream < IntStream
+  end
 end

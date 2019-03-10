@@ -1,4 +1,5 @@
-require '../antlr4/token'
+module Antlr4::Runtime
 
-class WritableToken < Token
+  class WritableToken < Token
+  end
 end
