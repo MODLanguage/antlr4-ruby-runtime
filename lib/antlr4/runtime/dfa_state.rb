@@ -1,3 +1,5 @@
+require 'antlr4/runtime/atn_config_set'
+
 module Antlr4::Runtime
   class DFAState
     attr_accessor :state_number

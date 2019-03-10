@@ -1,3 +1,5 @@
+require 'antlr4/runtime/rule_node'
+
 module Antlr4::Runtime
 
   class RuleContext < RuleNode

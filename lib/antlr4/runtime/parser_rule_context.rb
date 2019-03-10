@@ -1,3 +1,5 @@
+require 'antlr4/runtime/rule_context'
+
 module Antlr4::Runtime
 
   class ParserRuleContext < RuleContext

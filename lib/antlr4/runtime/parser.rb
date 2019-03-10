@@ -1,4 +1,5 @@
 require 'antlr4/runtime/parse_tree_listener'
+require 'antlr4/runtime/default_error_strategy'
 
 module Antlr4::Runtime
 

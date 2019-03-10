@@ -1,3 +1,5 @@
+require 'antlr4/runtime/atn_simulator'
+
 module Antlr4::Runtime
 
   class LexerATNSimulator < ATNSimulator

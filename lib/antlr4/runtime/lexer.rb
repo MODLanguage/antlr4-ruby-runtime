@@ -1,5 +1,6 @@
 require 'antlr4/runtime/recognizer'
 require 'antlr4/runtime/token'
+require 'antlr4/runtime/common_token_factory'
 
 module Antlr4::Runtime
 

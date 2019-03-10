@@ -1,3 +1,5 @@
+require 'antlr4/runtime/lexer_action'
+
 module Antlr4::Runtime
 
   class LexerSkipAction < LexerAction

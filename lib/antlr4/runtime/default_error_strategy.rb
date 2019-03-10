@@ -1,3 +1,5 @@
+require 'antlr4/runtime/antlr_error_strategy'
+
 module Antlr4::Runtime
 
   class DefaultErrorStrategy < ANTLRErrorStrategy

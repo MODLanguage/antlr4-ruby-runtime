@@ -1,15 +1,15 @@
 module Antlr4::Runtime
   class ANTLRErrorListener
-    def syntaxError(_recognizer, _offending_symbol, _line, _char_position_in_line, _msg, _e)
+    def syntax_error(_recognizer, _offending_symbol, _line, _char_position_in_line, _msg, _e)
     end
 
-    def reportAmbiguity(_recognizer, _dfa, _start_index, _stop_index, _exact, _ambig_alts, _configs)
+    def report_ambiguity(_recognizer, _dfa, _start_index, _stop_index, _exact, _ambig_alts, _configs)
     end
 
-    def reportAttemptingFullContext(_recognizer, _dfa, _start_index, _stop_index, _conflicting_alts, _configs)
+    def report_attempting_full_context(_recognizer, _dfa, _start_index, _stop_index, _conflicting_alts, _configs)
     end
 
-    def reportContextSensitivity(_recognizer, _dfa, _start_index, _stop_index, _prediction, _configs)
+    def report_context_sensitivity(_recognizer, _dfa, _start_index, _stop_index, _prediction, _configs)
     end
   end
 end

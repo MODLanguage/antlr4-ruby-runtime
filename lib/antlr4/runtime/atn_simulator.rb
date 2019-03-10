@@ -1,3 +1,5 @@
+require 'antlr4/runtime/dfa_state'
+
 module Antlr4::Runtime
 
   class ATNSimulator

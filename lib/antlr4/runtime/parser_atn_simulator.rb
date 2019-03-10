@@ -1,3 +1,6 @@
+require 'antlr4/runtime/atn_simulator'
+require 'antlr4/runtime/prediction_mode'
+
 module Antlr4::Runtime
 
   class ParserATNSimulator < ATNSimulator

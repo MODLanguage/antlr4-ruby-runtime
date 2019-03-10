@@ -1,3 +1,6 @@
+require 'antlr4/runtime/prediction_context'
+require 'antlr4/runtime/prediction_context_utils'
+
 module Antlr4::Runtime
 
   class SingletonPredictionContext < PredictionContext

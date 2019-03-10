@@ -1,3 +1,5 @@
+require 'antlr4/runtime/char_stream'
+
 module Antlr4::Runtime
 
   class CodePointCharStream < CharStream

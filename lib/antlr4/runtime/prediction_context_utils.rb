@@ -1,3 +1,5 @@
+require 'antlr4/runtime/murmur_hash'
+
 module Antlr4::Runtime
 
   class PredictionContextUtils

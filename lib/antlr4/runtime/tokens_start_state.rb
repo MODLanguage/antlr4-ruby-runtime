@@ -1,3 +1,5 @@
+require 'antlr4/runtime/decision_state'
+
 module Antlr4::Runtime
 
   class TokensStartState < DecisionState

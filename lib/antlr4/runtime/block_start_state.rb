@@ -1,3 +1,5 @@
+require 'antlr4/runtime/decision_state'
+
 module Antlr4::Runtime
   class BlockStartState < DecisionState
     attr_accessor :end_state

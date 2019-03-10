@@ -1,3 +1,5 @@
+require 'antlr4/runtime/integer'
+
 module Antlr4::Runtime
 
   class PredictionContext

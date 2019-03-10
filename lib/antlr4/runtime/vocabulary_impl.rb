@@ -1,3 +1,5 @@
+require 'antlr4/runtime/vocabulary'
+
 module Antlr4::Runtime
 
   class VocabularyImpl < Vocabulary

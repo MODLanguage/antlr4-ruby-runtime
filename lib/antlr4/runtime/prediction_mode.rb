@@ -1,3 +1,5 @@
+require 'antlr4/runtime/flexible_hash_map'
+
 module Antlr4::Runtime
 
   class PredictionMode

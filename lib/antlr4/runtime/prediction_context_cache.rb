@@ -1,3 +1,5 @@
+require 'antlr4/runtime/empty_prediction_context'
+
 module Antlr4::Runtime
 
   class PredictionContextCache

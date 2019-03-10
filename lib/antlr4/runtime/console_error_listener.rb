@@ -1,3 +1,5 @@
+require 'antlr4/runtime/base_error_listener'
+
 module Antlr4::Runtime
 
   class ConsoleErrorListener < BaseErrorListener

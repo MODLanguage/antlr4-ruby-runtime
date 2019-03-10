@@ -1,3 +1,4 @@
+require 'antlr4/runtime/singleton_prediction_context'
 module Antlr4::Runtime
 
   class EmptyPredictionContext < SingletonPredictionContext
