@@ -1,3 +1,6 @@
+require 'antlr4/runtime/atn_config'
+require 'antlr4/runtime/semantic_context'
+
 module Antlr4::Runtime
 
   class LexerATNConfig < ATNConfig

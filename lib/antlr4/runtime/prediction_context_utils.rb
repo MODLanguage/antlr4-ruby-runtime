@@ -1,4 +1,5 @@
 require 'antlr4/runtime/murmur_hash'
+require 'antlr4/runtime/array_prediction_context'
 
 module Antlr4::Runtime
 

@@ -1,4 +1,7 @@
 require 'antlr4/runtime/atn_simulator'
+require 'antlr4/runtime/lexer_atn_config'
+require 'antlr4/runtime/ordered_atn_config_set'
+require 'antlr4/runtime/lexer_action_executor'
 
 module Antlr4::Runtime
 

@@ -1,3 +1,6 @@
+require 'antlr4/runtime/terminal_node'
+require 'antlr4/runtime/interval'
+
 module Antlr4::Runtime
 
   class TerminalNodeImpl < TerminalNode

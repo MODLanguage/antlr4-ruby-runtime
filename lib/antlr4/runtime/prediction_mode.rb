@@ -1,4 +1,5 @@
 require 'antlr4/runtime/flexible_hash_map'
+require 'antlr4/runtime/bit_set'
 
 module Antlr4::Runtime
 

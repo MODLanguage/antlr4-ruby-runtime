@@ -1,3 +1,6 @@
+require 'antlr4/runtime/common_token'
+require 'antlr4/runtime/Interval'
+
 module Antlr4::Runtime
 
   class CommonTokenFactory

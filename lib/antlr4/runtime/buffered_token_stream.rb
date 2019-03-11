@@ -1,3 +1,4 @@
+require 'antlr4/runtime/writable_token'
 require 'antlr4/runtime/token_stream'
 
 module Antlr4::Runtime

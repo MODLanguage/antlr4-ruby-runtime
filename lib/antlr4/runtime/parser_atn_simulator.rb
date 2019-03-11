@@ -1,5 +1,6 @@
 require 'antlr4/runtime/atn_simulator'
 require 'antlr4/runtime/prediction_mode'
+require 'antlr4/runtime/double_key_map'
 
 module Antlr4::Runtime
 

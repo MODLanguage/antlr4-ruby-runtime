@@ -1,3 +1,5 @@
+require 'antlr4/runtime/lexer_indexed_custom_action'
+
 module Antlr4::Runtime
 
   class LexerActionExecutor
