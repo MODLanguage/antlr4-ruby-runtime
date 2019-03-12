@@ -17,7 +17,7 @@ module Antlr4::Runtime
       end
 
       def visit_terminal(node, ctx)
-        puts('consume ' << node.getSymbol.to_s << ' rule ' << @parser.rule_names[ctx.rule_index].to_s)
+        puts('consume ' << node.symbol.to_s << ' rule ' << @parser.rule_names[ctx.rule_index].to_s)
       end
 
       def visit_error_node(_node)
