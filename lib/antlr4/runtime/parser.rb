@@ -413,7 +413,8 @@ module Antlr4::Runtime
     end
 
     def expected_tokens
-      getATN.expected_tokens(getState, getContext)
+      atn = @_interp.atn
+      atn.expected_tokens(@_state_number, @_ctx)
     end
 
     def expected_tokens_within_current_rule

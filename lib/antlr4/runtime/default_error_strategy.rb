@@ -1,4 +1,6 @@
 require 'antlr4/runtime/antlr_error_strategy'
+require 'antlr4/runtime/input_mismatch_exception'
+require 'antlr4/runtime/no_viable_alt_exception'
 
 module Antlr4::Runtime
 
@@ -55,7 +57,7 @@ module Antlr4::Runtime
     end
 
     def recover(recognizer, _e)
-      if @last_error_index == recognizer.input_stream.index && !@last_error_states.nil? && @last_error_states.include?(recognizer.getState)
+      if @last_error_index == recognizer._input.index && !@last_error_states.nil? && @last_error_states.include?(recognizer._state_number)
         # uh oh, another error at same token index and previously-visited
         # state in ATN must be a case where lt(1) is in the recovery
         # token set so nothing got consumed. Consume a single token
@@ -65,9 +67,9 @@ module Antlr4::Runtime
         #      System.err.println("FAILSAFE consumes "+recognizer.getTokenNames()[recognizer.getInputStream().la(1)])
         recognizer.consume
       end
-      @last_error_index = recognizer.input_stream.index
+      @last_error_index = recognizer._input.index
       @last_error_states = IntervalSet.new if @last_error_states.nil?
-      @last_error_states.add(recognizer.getState)
+      @last_error_states.add(recognizer._state_number)
       followSet = error_recovery_set(recognizer)
       consume_until(recognizer, followSet)
     end
@@ -213,7 +215,7 @@ module Antlr4::Runtime
     end
 
     def single_token_deletion(recognizer)
-      next_token_type = recognizer.input_stream.la(2)
+      next_token_type = recognizer._input.la(2)
       expecting = expected_tokens(recognizer)
       if expecting.contains(next_token_type)
         report_unwanted_token(recognizer)
@@ -300,10 +302,10 @@ module Antlr4::Runtime
     end
 
     def consume_until(recognizer, set)
-      ttype = recognizer.input_stream.la(1)
+      ttype = recognizer._input.la(1)
       while ttype != Token::EOF && !set.contains(ttype)
         recognizer.consume
-        ttype = recognizer.input_stream.la(1)
+        ttype = recognizer._input.la(1)
       end
     end
   end

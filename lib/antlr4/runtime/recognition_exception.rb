@@ -8,7 +8,7 @@ module Antlr4::Runtime
 
     def expected_tokens
       unless @recognizer.nil?
-        return @recognizer.getATN.expected_tokens(@offending_state, @context)
+        return @recognizer._interp.atn.expected_tokens(@offending_state, @context)
       end
 
       nil
