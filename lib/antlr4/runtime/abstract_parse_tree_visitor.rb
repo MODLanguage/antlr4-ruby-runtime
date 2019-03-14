@@ -11,8 +11,8 @@ module Antlr4::Runtime
       while i < n
         break unless should_visit_next_child(node, result)
 
-        c = node.child(i)
-        child_result = c.accept(this)
+        c = node.child_at(i)
+        child_result = c.accept(self)
         result = aggregate_result(result, child_result)
         i += 1
       end
