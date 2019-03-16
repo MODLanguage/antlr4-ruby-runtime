@@ -49,7 +49,7 @@ module Antlr4::Runtime
       builder = ''
       i = 0
       while i < child_count
-        builder << child(i).text
+        builder << child_at(i).text
         i += 1
       end
 
