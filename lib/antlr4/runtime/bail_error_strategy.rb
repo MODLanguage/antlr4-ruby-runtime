@@ -1,3 +1,5 @@
+require 'antlr4/runtime/parse_cancellation_exception'
+
 module Antlr4::Runtime
 
   class BailErrorStrategy < DefaultErrorStrategy
