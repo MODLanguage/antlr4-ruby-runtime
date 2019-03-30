@@ -172,7 +172,14 @@ module Antlr4::Runtime
           alts = eval_semantic_context(d.predicates, outer_ctx, true)
           case alts.cardinality
           when 0
-            raise NoViableAltException, input, outer_ctx, d.configs, start_index
+            exc = NoViableAltException.new
+            exc.recognizer = @parser
+            exc.input = input
+            exc.context = outer_ctx
+            exc.start_token = input.get(start_index)
+            exc.offending_token = input.lt(1)
+            exc.dead_end_configs = d.configs
+            raise exc
 
           when 1
             return alts.next_set_bit(0)
@@ -291,7 +298,14 @@ module Antlr4::Runtime
           alt = syn_valid_or_sem_invalid_alt_that_finished_decision_entry_rule(previous, outer_ctx)
           return alt if alt != ATN::INVALID_ALT_NUMBER
 
-          raise NoViableAltException, input, outer_ctx, previous, start_index
+          exc = NoViableAltException.new
+          exc.recognizer = @parser
+          exc.input = input
+          exc.context = outer_ctx
+          exc.start_token = input.get(start_index)
+          exc.offending_token = input.lt(1)
+          exc.dead_end_configs = previous.configs
+          raise exc
         end
 
         alt_sub_sets = PredictionMode.conflicting_alt_subsets(reach)
@@ -580,11 +594,13 @@ module Antlr4::Runtime
     def alt_that_finished_decision_entry_rule(configs)
       alts = IntervalSet.new
       configs.configs.each do |c|
-        if c.outer_context_depth > 0 || (c.state.class.name == 'RuleStopState' && c.context.empty_path?)
+        depth = c.outer_context_depth
+        class_name = c.state.class.name
+        if depth > 0 || (class_name == 'Antlr4::Runtime::RuleStopState' && c.context.empty_path?)
           alts.add(c.alt)
         end
       end
-      return ATN::INVALID_ALT_NUMBER if alts.empty?
+      return ATN::INVALID_ALT_NUMBER if alts.intervals.empty?
 
       alts.min_element
     end

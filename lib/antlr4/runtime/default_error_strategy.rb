@@ -123,7 +123,7 @@ module Antlr4::Runtime
     end
 
     def report_no_viable_alternative(recognizer, e)
-      tokens = recognizer.input_stream
+      tokens = recognizer._input
       input = if !tokens.nil?
                 if e.start_token.type == Token::EOF
                   '<EOF>'

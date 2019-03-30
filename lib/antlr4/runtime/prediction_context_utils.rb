@@ -28,7 +28,7 @@ module Antlr4::Runtime
       # share same graph if both same
       return a if a == b || a.eql?(b)
 
-      if a.class.name == 'SingletonPredictionContext' && b.class.name == 'SingletonPredictionContext'
+      if a.class.name == 'Antlr4::Runtime::SingletonPredictionContext' && b.class.name == 'Antlr4::Runtime::SingletonPredictionContext'
         return merge_singletons(a, b, root_is_wildcard, merge_cache)
       end
 

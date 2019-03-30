@@ -1,3 +1,6 @@
+require 'antlr4/runtime/dfa_serializer'
+require 'antlr4/runtime/lexer_dfa_serializer'
+
 module Antlr4::Runtime
 
   class DFA
