@@ -1,6 +1,5 @@
 # Antlr4::Runtime
 
-## THIS IS A WORK IN PROGRESS AND NOT READY FOR PRODUCTION USE YET
 This gem adds support for the ANTLR4 runtime for Ruby lexers and parsers generated from the Ruby langauge 
 target available at https://github.com/twalmsley/antlr4/tree/ruby_dev
 ## Installation
@@ -21,9 +20,27 @@ Or install it yourself as:
 
 ## Usage
 
-```Ruby
-require 'antlr4/runtime'
-````
+```ruby
+require 'modl/parser/MODLParserListener'
+require 'modl/parser/MODLParserVisitor'
+require 'modl/parser/MODLLexer'
+require 'modl/parser/MODLParser'
+require 'modl/parser/Parser'
+require 'modl/parser/class_processor'
+require 'json'
+
+module Modl::Parser
+  class Interpreter
+    def self.interpret(str)
+      parsed = Modl::Parser::Parser.parse str
+      interpreted = parsed.extract_json
+      ClassProcessor.instance.process(parsed.global, interpreted)
+      return interpreted if interpreted.is_a? String
+      JSON.generate interpreted
+    end
+  end
+end
+```
 
 ## Development
 
@@ -33,7 +50,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/twalmsley/antlr4-runtime. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/MODLanguage/antlr4-ruby-runtime. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
