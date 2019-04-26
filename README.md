@@ -16,12 +16,11 @@ And then execute:
 
 Or clone the repository and build and install it yourself as:
 
-    $ gem build antlr4-runtime.gemspec
-    $ gem install antlr4-runtime-0.1.0.gem
+    $ rake install
     
     or if that fails:
     
-    $ sudo gem install antlr4-runtime-0.1.0.gem
+    $ sudo rake install
 
 ## Usage
 
