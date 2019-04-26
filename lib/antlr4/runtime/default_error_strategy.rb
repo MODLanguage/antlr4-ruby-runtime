@@ -187,22 +187,23 @@ module Antlr4::Runtime
 
       # even that didn't work must throw the exception
       exc = InputMismatchException.new
-      exc.recog = recognizer
-      if nextTokensContext.nil?
+      exc.recognizer = recognizer
+      if @next_tokens_context.nil?
         raise exc
       else
-        exc.token = @next_tokens_state
+        exc.offending_token = recognizer._input.lt(1)
+        exc.offending_state = @next_tokens_state
         exc.context = @next_tokens_context
         raise exc
       end
     end
 
     def single_token_insertion(recognizer)
-      current_symbol_type = recognizer.input_stream.la(1)
+      current_symbol_type = recognizer._input.la(1)
       # if current token is consistent with what could come after current
       # ATN state, then we know we're missing a token error recovery
       # is free to conjure up and insert the missing token
-      current_state = recognizer._interp.atn.states[recognizer.getState]
+      current_state = recognizer._interp.atn.states[recognizer._state_number]
       next_t = current_state.transition(0).target
       atn = recognizer._interp.atn
       expecting_at_ll2 = atn.next_tokens_ctx(next_t, recognizer._ctx)
@@ -242,12 +243,12 @@ module Antlr4::Runtime
         token_text = '<missing ' + recognizer.get_vocabulary.display_name(expected_token_type) + '>'
       end
       current = current_symbol
-      look_back = recognizer.input_stream.lt(-1)
+      look_back = recognizer._input.lt(-1)
       current = look_back if current.type == Token::EOF && !look_back.nil?
 
       pair = OpenStruct.new
       pair.a = current.source
-      pair.b = current.source.input_stream
+      pair.b = current.source._input
       recognizer.token_factory.create(pair, expected_token_type, token_text, Token::DEFAULT_CHANNEL, -1, -1, current.line, current.char_position_in_line)
     end
 
@@ -271,7 +272,8 @@ module Antlr4::Runtime
     end
 
     def symbol_text(symbol)
-      symbol.text
+      return symbol.text if symbol.respond_to? :text
+      symbol.to_s
     end
 
     def symbol_type(symbol)

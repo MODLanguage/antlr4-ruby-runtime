@@ -81,9 +81,9 @@ module Antlr4::Runtime
       return following unless following.contains(Token::EPSILON)
 
       expected = IntervalSet.new
-      expected.concat(following)
-      expected.delete(Token::EPSILON)
-      while !ctx.nil? && ctx.invoking_state >= 0 && following.include?(Token::EPSILON)
+      expected.add_all(following)
+      expected.remove(Token::EPSILON)
+      while !ctx.nil? && ctx.invoking_state >= 0 && following.contains(Token::EPSILON)
         invoking_state = @states[ctx.invoking_state]
         rt = invoking_state.transition(0)
         following = next_tokens(rt.follow_state)
@@ -92,7 +92,7 @@ module Antlr4::Runtime
         ctx = ctx.parent
       end
 
-      expected << Token::EOF if following.include?(Token::EPSILON)
+      expected << Token::EOF if following.contains(Token::EPSILON)
 
       expected
     end
