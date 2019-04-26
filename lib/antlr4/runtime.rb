@@ -8,6 +8,7 @@ module Antlr4
   end
 end
 
+require 'antlr4/runtime/interval'
 require 'antlr4/runtime/char_streams'
 require 'antlr4/runtime/common_token_stream'
 require 'antlr4/runtime/prediction_context_cache'

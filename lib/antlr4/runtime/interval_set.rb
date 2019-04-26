@@ -1,4 +1,3 @@
-require 'antlr4/runtime/interval'
 require 'antlr4/runtime/lexer'
 
 module Antlr4::Runtime
