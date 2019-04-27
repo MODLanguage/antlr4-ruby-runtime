@@ -446,7 +446,7 @@ module Antlr4::Runtime
       result = ATNConfigSet.new(configs.full_ctx)
       configs.each do |config|
         if config.state.is_a? RuleStopState
-          result.add(config, mergeCache)
+          result.add(config, @merge_cache)
           next
         end
 
@@ -500,7 +500,7 @@ module Antlr4::Runtime
           atncfg.atn_config3(config, updated_context)
           config_set.add(atncfg, @merge_cache)
         else
-          config_set.add(config, mergeCache)
+          config_set.add(config, @merge_cache)
         end
       end
 
