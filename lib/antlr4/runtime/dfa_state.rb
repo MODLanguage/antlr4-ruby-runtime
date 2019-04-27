@@ -67,9 +67,19 @@ module Antlr4::Runtime
     end
 
     def hash
-      hash = 7
-      hash = MurmurHash.update_int(hash, configs.hash)
-      MurmurHash.finish(hash, 1)
+      return @_hash unless @_hash.nil?
+
+      hash_code = 7
+      hash_code = MurmurHash.update_int(hash_code, configs.hash)
+      hash_code = MurmurHash.finish(hash_code, 1)
+      if !@_hash.nil?
+        if hash_code == @_hash
+          puts 'Same hash_code for DFAState'
+        else
+          puts 'Different hash_code for DFAState'
+        end
+      end
+      @_hash = hash_code
     end
 
     def equals?(o) # compare set of ATN configurations in this set with other

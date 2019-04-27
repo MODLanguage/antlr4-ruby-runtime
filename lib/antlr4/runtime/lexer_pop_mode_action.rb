@@ -16,9 +16,19 @@ module Antlr4::Runtime
     end
 
     def hash
-      hashcode = 0
-      hashcode = MurmurHash.update_int(hashcode, action_type)
-      MurmurHash.finish(hashcode, 1)
+      return @_hash unless @_hash.nil?
+
+      hash_code = 0
+      hash_code = MurmurHash.update_int(hash_code, action_type)
+      hash_code = MurmurHash.finish(hash_code, 1)
+      if !@_hash.nil?
+        if hash_code == @_hash
+          puts 'Same hash_code for LexerPopModeAction'
+        else
+          puts 'Different hash_code for LexerPopModeAction'
+        end
+      end
+      @_hash = hash_code
     end
 
     def equals(other)

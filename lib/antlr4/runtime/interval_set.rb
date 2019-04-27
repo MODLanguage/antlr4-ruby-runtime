@@ -295,13 +295,21 @@ module Antlr4::Runtime
     end
 
     def hash
-      hash = MurmurHash.initialize
+      hash_code = MurmurHash.initialize
       @intervals.each do |interval|
-        hash = MurmurHash.update(hash, interval.a)
-        hash = MurmurHash.update(hash, interval.b)
+        hash_code = MurmurHash.update(hash_code, interval.a)
+        hash_code = MurmurHash.update(hash_code, interval.b)
       end
 
-      MurmurHash.finish(hash, @intervals.length * 2)
+      hash_code = MurmurHash.finish(hash_code, @intervals.length * 2)
+      if !@_hash.nil?
+        if hash_code == @_hash
+          puts 'Same hash_code for IntervalSet'
+        else
+          puts 'Different hash_code for IntervalSet'
+        end
+      end
+      @_hash = hash_code
     end
 
     def ==(obj)

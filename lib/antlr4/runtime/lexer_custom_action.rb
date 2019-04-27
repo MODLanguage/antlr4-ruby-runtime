@@ -22,11 +22,21 @@ module Antlr4::Runtime
     end
 
     def hash
+      return @_hash unless @_hash.nil?
+
       hash_code = 0
       hash_code = MurmurHash.update_int(hash_code, action_type)
       hash_code = MurmurHash.update_int(hash_code, rule_index)
       hash_code = MurmurHash.update_int(hash_code, action_index)
-      MurmurHash.finish(hash_code, 3)
+      hash_code = MurmurHash.finish(hash_code, 3)
+      if !@_hash.nil?
+        if hash_code == @_hash
+          puts 'Same hash_code for LexerCustomAction'
+        else
+          puts 'Different hash_code for LexerCustomAction'
+        end
+      end
+      @_hash = hash_code
     end
 
     def eql?(other)

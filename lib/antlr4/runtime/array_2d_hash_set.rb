@@ -82,18 +82,26 @@ module Antlr4::Runtime
     end
 
     def hash
-      hash = 0
+      hash_code = 0
       @buckets.each do |bucket|
         next if bucket.nil?
 
         bucket.each do |o|
           break if o.nil?
 
-          hash = MurmurHash.update_int(hash, @comparator.hash(o))
+          hash_code = MurmurHash.update_int(hash_code, @comparator.hash(o))
         end
       end
 
-      MurmurHash.finish(hash, size)
+      hash_code = MurmurHash.finish(hash, size)
+      if !@_hash.nil?
+        if hash_code == @_hash
+          puts 'Same hash_code for Array2DHashSet'
+        else
+          puts 'Different hash_code for Array2DHashSet'
+        end
+      end
+      @_hash = hash_code
     end
 
     def equals(o)

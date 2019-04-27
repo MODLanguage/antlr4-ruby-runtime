@@ -24,11 +24,21 @@ module Antlr4::Runtime
       end
 
       def hash
-        hashcode = 0
-        hashcode = MurmurHash.update_int(hashcode, @rule_index)
-        hashcode = MurmurHash.update_int(hashcode, @pred_index)
-        hashcode = MurmurHash.update_int(hashcode, @is_ctx_dependent ? 1 : 0)
-        MurmurHash.finish(hashcode, 3)
+        return @_hash unless @_hash.nil?
+
+        hash_code = 0
+        hash_code = MurmurHash.update_int(hash_code, @rule_index)
+        hash_code = MurmurHash.update_int(hash_code, @pred_index)
+        hash_code = MurmurHash.update_int(hash_code, @is_ctx_dependent ? 1 : 0)
+        hash_code = MurmurHash.finish(hash_code, 3)
+        if !@_hash.nil?
+          if hash_code == @_hash
+            puts 'Same hash_code for SemanticContext'
+          else
+            puts 'Different hash_code for SemanticContext'
+          end
+        end
+        @_hash = hash_code
       end
 
       def eql?(other)
@@ -119,7 +129,15 @@ module Antlr4::Runtime
       end
 
       def hash
-        MurmurHash.hash(@opnds, AND.hash)
+        hash_code = MurmurHash.hash(@opnds, AND.hash)
+        if !@_hash2.nil?
+          if hash_code == @_hash2
+            puts 'Same hash_code for SemanticContext_2'
+          else
+            puts 'Different hash_code for SemanticContext_2'
+          end
+        end
+        @_hash2 = hash_code
       end
 
       def eval(parser, parser_call_stack)
@@ -200,7 +218,15 @@ module Antlr4::Runtime
       end
 
       def hash
-        MurmurHash.hash(@opnds, OR.hash)
+        hash_code = MurmurHash.hash(@opnds, OR.hash)
+        if !@_hash3.nil?
+          if hash_code == @_hash3
+            puts 'Same hash_code for SemanticContext_2'
+          else
+            puts 'Different hash_code for SemanticContext_2'
+          end
+        end
+        @_hash3 = hash_code
       end
 
       def eval(parser, parser_call_stack)

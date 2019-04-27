@@ -95,18 +95,26 @@ module Antlr4::Runtime
     end
 
     def hash
-      hash = 0
+      hash_code = 0
       @buckets.each do |bucket|
         next if bucket.nil?
 
         bucket.each do |e|
           break if e.nil?
 
-          hash = MurmurHash.update(hash, @comparator.hash(e.key))
+          hash_code = MurmurHash.update(hash_code, @comparator.hash(e.key))
         end
       end
 
-      MurmurHash.finish(hash, size)
+      hash_code = MurmurHash.finish(hash_code, size)
+      if !@_hash.nil?
+        if hash_code == @_hash
+          puts 'Same hash_code for FlexibleHashMap'
+        else
+          puts 'Different hash_code for FlexibleHashMap'
+        end
+      end
+      @_hash = hash_code
     end
 
     def expand

@@ -21,11 +21,19 @@ module Antlr4::Runtime
     end
 
     def hash
-      hashcode = 0
-      hashcode = MurmurHash.update_obj(hashcode, a)
-      hashcode = MurmurHash.update_obj(hashcode, b)
-      hashcode = MurmurHash.update_obj(hashcode, c)
-      MurmurHash.finish(hashcode, 3)
+      hash_code = 0
+      hash_code = MurmurHash.update_obj(hash_code, a)
+      hash_code = MurmurHash.update_obj(hash_code, b)
+      hash_code = MurmurHash.update_obj(hash_code, c)
+      hash_code = MurmurHash.finish(hash_code, 3)
+      if !@_hash.nil?
+        if hash_code == @_hash
+          puts 'Same hash_code for Triple'
+        else
+          puts 'Different hash_code for Triple'
+        end
+      end
+      @_hash = hash_code
     end
 
     def to_s

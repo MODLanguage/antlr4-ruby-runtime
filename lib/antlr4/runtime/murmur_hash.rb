@@ -1,6 +1,7 @@
 module Antlr4::Runtime
   class MurmurHash
     DEFAULT_SEED = 0
+    MASK_32 = 0xFFFFFFFF
 
     def self.update_int(hash, value)
       c1 = 0xCC9E2D51
@@ -18,6 +19,7 @@ module Antlr4::Runtime
       hash = hash ^ k
       hash = (hash << r2) | (hash >> (32 - r2))
       hash * m + n
+      hash & MASK_32
     end
 
     def self.update_obj(hash, value)
@@ -31,6 +33,7 @@ module Antlr4::Runtime
       hash = hash ^ (hash >> 13)
       hash *= 0xC2B2AE35
       hash ^ (hash >> 16)
+      hash & MASK_32
     end
 
     def self.hash(data, seed)
