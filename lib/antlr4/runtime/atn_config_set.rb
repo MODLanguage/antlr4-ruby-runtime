@@ -120,10 +120,7 @@ module Antlr4::Runtime
       include Singleton
 
       def hash(o)
-        hash_code = 7
-        hash_code = 31 * hash_code + o.state.state_number
-        hash_code = 31 * hash_code + o.alt
-        31 * hash_code + o.semantic_context.hash
+        o.bucket_hash
       end
 
       def equals(a, b)

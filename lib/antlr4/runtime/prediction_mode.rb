@@ -43,7 +43,7 @@ module Antlr4::Runtime
         if configs.has_semantic_context
           # dup configs, tossing out semantic predicates
           dup = ATNConfigSet.new
-          configs.each do |cfg|
+          configs.configs.each do |cfg|
             c = ATNConfig.new
             c.atn_config5(cfg, SemanticContext::NONE)
             dup.add(c)
@@ -60,8 +60,8 @@ module Antlr4::Runtime
       heuristic
     end
 
-    def has_config_in_rule_stop_state?(configs)
-      configs.each do |c|
+    def self.has_config_in_rule_stop_state?(configs)
+      configs.configs.each do |c|
         return true if c.state.is_a? RuleStopState
       end
 

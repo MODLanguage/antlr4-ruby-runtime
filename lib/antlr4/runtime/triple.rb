@@ -22,9 +22,9 @@ module Antlr4::Runtime
 
     def hash
       hash_code = 0
-      hash_code = MurmurHash.update_obj(hash_code, a)
-      hash_code = MurmurHash.update_obj(hash_code, b)
-      hash_code = MurmurHash.update_obj(hash_code, c)
+      hash_code = MurmurHash.update_obj(hash_code, @a)
+      hash_code = MurmurHash.update_obj(hash_code, @b)
+      hash_code = MurmurHash.update_obj(hash_code, @c)
       hash_code = MurmurHash.finish(hash_code, 3)
       if !@_hash.nil?
         if hash_code == @_hash

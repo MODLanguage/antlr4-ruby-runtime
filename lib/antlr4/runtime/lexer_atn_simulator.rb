@@ -451,7 +451,7 @@ module Antlr4::Runtime
       end
 
       if @@debug
-        message = 'EDGE ' << p.to_s << ' -> ' << q.to_s << ' upon ' << t
+        message = 'EDGE ' << p.to_s << ' -> ' << q.to_s << ' upon ' << token_name(t)
         puts(message)
       end
 
@@ -496,7 +496,7 @@ module Antlr4::Runtime
 
     def consume(input)
       cur_char = input.la(1)
-      if cur_char == '\n'
+      if cur_char == 10 # newline
         @line += 1
         @char_position_in_line = 0
       else

@@ -25,25 +25,25 @@ module Antlr4::Runtime
     end
 
     def get1(k1)
-      @data.get(k1)
+      @data[k1]
     end
 
     def values(k1)
-      data2 = @data.get(k1)
+      data2 = @data[k1]
       return nil if data2.nil?
 
       data2.values
     end
 
     def key_set0
-      @data.keySet
+      @data.keys
     end
 
     def key_set1(k1)
       data2 = @data[k1]
       return nil if data2.nil?
 
-      data2.keySet
+      data2.keys
     end
   end
 end

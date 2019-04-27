@@ -411,7 +411,7 @@ module Antlr4::Runtime
 
     def to_integer_list
       values = IntegerList.new
-      n = @inervals.length
+      n = @intervals.length
       i = 0
       while i < n
         interval = @intervals[i]

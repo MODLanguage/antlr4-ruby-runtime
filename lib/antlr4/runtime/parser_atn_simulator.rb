@@ -141,7 +141,7 @@ module Antlr4::Runtime
             conflict_index = input.index
             input.seek(start_index) if conflict_index != start_index
 
-            conflicting_alts = eval_semantic_context(D.predicates, outer_ctx, true)
+            conflicting_alts = eval_semantic_context(d.predicates, outer_ctx, true)
             if conflicting_alts.cardinality == 1
               puts('Full LL avoided') if debug
               return conflicting_alts.next_set_bit(0)
@@ -379,7 +379,7 @@ module Antlr4::Runtime
           if full_ctx || t == IntStream::EOF
             skipped_stop_states = [] if skipped_stop_states.nil?
 
-            skipped_stop_states.add(c)
+            skipped_stop_states.push(c)
           end
 
           next

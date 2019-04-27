@@ -14,6 +14,23 @@ module Antlr4::Runtime
       @alt = 0
     end
 
+    def bucket_hash
+      return @_bucket_hash unless @_bucket_hash.nil?
+
+      hash_code = 7
+      hash_code = 31 * hash_code + @state.state_number
+      hash_code = 31 * hash_code + @alt
+      31 * hash_code + @semantic_context.hash
+      if !@_bucket_hash.nil?
+        if hash_code == @_bucket_hash
+          puts 'Same hash_code for ATNConfig.bucket_hash'
+        else
+          puts 'Different hash_code for ATNConfig.bucket_hash'
+        end
+      end
+      @_bucket_hash = hash_code
+    end
+
     def atn_config_copy(old)
       @state = old.state
       @alt = old.alt
