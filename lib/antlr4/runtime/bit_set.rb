@@ -36,14 +36,18 @@ module Antlr4::Runtime
     end
 
     def to_s
-      v = Array.new(@bits.size, 0)
+      max = 0
+      @bits.each {|b| max = b if b > max}
+      v = Array.new(max, 0)
       @bits.each do |bit|
         v[bit] = 1
       end
       buf = '['
+      tmp = ''
       v.each do |c|
-        buf << c.to_s
+        tmp << c.to_s
       end
+      buf << tmp.reverse!
       buf << ']'
       buf
     end

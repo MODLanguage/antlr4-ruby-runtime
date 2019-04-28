@@ -372,7 +372,7 @@ module Antlr4::Runtime
           j = a
           while j <= b
             buf << ', ' if j > a
-            buf << element_name_in_vocabulary(vocabulary, i)
+            buf << element_name_in_vocabulary(vocabulary, j)
             j += 1
           end
         end

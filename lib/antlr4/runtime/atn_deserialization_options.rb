@@ -1,6 +1,8 @@
+require 'singleton'
+
 module Antlr4::Runtime
   class ATNDeserializationOptions
-    @@default_options = ATNDeserializationOptions.new
+    include Singleton
 
     def initialize(read_only = true, options = nil)
       @read_only = read_only
@@ -11,10 +13,6 @@ module Antlr4::Runtime
         @verify_atn = true
         @generate_rule_bypass_transitions = false
       end
-    end
-
-    def self.get_default_options
-      @@default_options
     end
 
     def read_only?

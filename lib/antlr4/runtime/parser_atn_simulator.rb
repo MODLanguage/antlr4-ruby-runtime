@@ -186,7 +186,7 @@ module Antlr4::Runtime
 
           else # report ambiguity after predicate evaluation to make sure the correct
             # set of ambig alts is reported.
-            report_ambiguity(dfa, D, start_index, stop_index, false, alts, d.configs)
+            report_ambiguity(dfa, d, start_index, stop_index, false, alts, d.configs)
             return alts.next_set_bit(0)
           end
         end

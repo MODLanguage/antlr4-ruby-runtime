@@ -80,7 +80,7 @@ module Antlr4::Runtime
 
     def initialize(deserialization_options = nil)
       @deserialization_options = if deserialization_options.nil?
-                                   ATNDeserializationOptions.get_default_options
+                                   ATNDeserializationOptions.instance
                                  else
                                    deserialization_options
                                  end
@@ -377,7 +377,7 @@ module Antlr4::Runtime
 
       verify_atn(atn) if @deserialization_options.verify_atn?
 
-      if @deserialization_options.generate_rule_bypass_transitions? && atn.grammar_type == ATNType.PARSER
+      if @deserialization_options.generate_rule_bypass_transitions? && atn.grammar_type == ATNType::PARSER
         atn.rule_to_token_type = []
         i = 0
         while i < atn.rule_to_start_state.length
@@ -439,8 +439,8 @@ module Antlr4::Runtime
             bypass_start.add_transition(transition)
           end
 
-          atn.rule_to_start_state[i].add_transition(new(EpsilonTransition(bypass_start)))
-          bypass_stop.add_transition(new(EpsilonTransition(end_state)))
+          atn.rule_to_start_state[i].add_transition(EpsilonTransition.new(bypass_start))
+          bypass_stop.add_transition(EpsilonTransition.new(end_state))
 
           match_state = BasicState.new
           atn.add_state(match_state)
@@ -448,7 +448,7 @@ module Antlr4::Runtime
           bypass_start.add_transition(EpsilonTransition.new(match_state))
         end
 
-        verify_atn(atn) if deserializationOptions.verify_atn?
+        verify_atn(atn) if @deserialization_options.verify_atn?
       end
 
       atn
