@@ -78,7 +78,11 @@ module Antlr4::Runtime
 
     def or_sets(sets)
       r = IntervalSet.new
-      sets.each {|s| r.add_all(s)}
+      i = 0
+      while i < sets.length
+        r.add_all(sets[i])
+        i += 1
+      end
       r
     end
 
@@ -96,7 +100,12 @@ module Antlr4::Runtime
           i += 1
         end
       else
-        set.to_list.each(&method(:add))
+        i = 0
+        list = set.to_list
+        while i < list.length
+          add(list[i])
+          i += 1
+        end
       end
 
       self
@@ -296,9 +305,12 @@ module Antlr4::Runtime
 
     def hash
       hash_code = MurmurHash.initialize
-      @intervals.each do |interval|
+      i = 0
+      while i < @intervals.length
+        interval = @intervals[i]
         hash_code = MurmurHash.update(hash_code, interval.a)
         hash_code = MurmurHash.update(hash_code, interval.b)
+        i += 1
       end
 
       hash_code = MurmurHash.finish(hash_code, @intervals.length * 2)
@@ -433,7 +445,9 @@ module Antlr4::Runtime
 
     def to_set
       s = Set.new
-      @intervals.each do |i|
+      k = 0
+      while k < @intervals.length
+        i = @intervals[k]
         a = i.a
         b = i.b
         v = a
@@ -441,6 +455,7 @@ module Antlr4::Runtime
           s.add(v)
           v += 1
         end
+        k += 1
       end
       s
     end

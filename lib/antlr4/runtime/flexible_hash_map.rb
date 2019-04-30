@@ -51,8 +51,11 @@ module Antlr4::Runtime
         return nil # no bucket
       end
 
-      bucket.each do |e|
+      i = 0
+      while i < bucket.length
+        e = bucket[i]
         return e.value if @comparator.equals(e.key, typed_key)
+        i += 1
       end
       nil
     end
@@ -64,8 +67,13 @@ module Antlr4::Runtime
       b = bucket(key)
       bucket = @buckets[b]
       bucket = @buckets[b] = [] if bucket.nil?
-      bucket.each do |e|
-        next unless @comparator.equals(e.key, key)
+      i = 0
+      while i < bucket.length
+        e = bucket[i]
+        unless @comparator.equals(e.key, key)
+          i += 1
+          next
+        end
 
         prev = e.value
         e.value = value
@@ -80,12 +88,21 @@ module Antlr4::Runtime
 
     def values
       a = []
-      @buckets.each do |bucket|
-        next if bucket.nil?
-
-        bucket.each do |e|
-          a << e.value
+      i = 0
+      while i < @buckets.length
+        bucket = @buckets[i]
+        if bucket.nil?
+          i += 1
+          next
         end
+
+        j = 0
+        while j < bucket.length
+          e = bucket[j]
+          a << e.value
+          j += 1
+        end
+        i += 1
       end
       a
     end
@@ -96,14 +113,23 @@ module Antlr4::Runtime
 
     def hash
       hash_code = 0
-      @buckets.each do |bucket|
-        next if bucket.nil?
+      i = 0
+      while i < @buckets.length
+        bucket = @buckets[i]
+        if bucket.nil?
+          i += 1
+          next
+        end
 
-        bucket.each do |e|
+        j = 0
+        while j < bucket.length
+          e = bucket[j]
           break if e.nil?
 
           hash_code = MurmurHash.update(hash_code, @comparator.hash(e.key))
+          j += 1
         end
+        i += 1
       end
 
       hash_code = MurmurHash.finish(hash_code, size)
@@ -126,14 +152,23 @@ module Antlr4::Runtime
       @threshold = new_capacity * LOAD_FACTOR
 
       old_size = size
-      old.each do |bucket|
-        next if bucket.nil?
+      i = 0
+      while i < old.length
+        bucket = old[i]
+        if bucket.nil?
+          i += 1
+          next
+        end
 
-        bucket.each do |e|
+        j = 0
+        while j < bucket.length
+          e = bucket[j]
           break if e.nil?
 
           put(e.key, e.value)
+          j += 1
         end
+        i += 1
       end
       @n_items = old_size
     end

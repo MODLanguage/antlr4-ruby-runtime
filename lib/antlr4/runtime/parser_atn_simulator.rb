@@ -372,7 +372,9 @@ module Antlr4::Runtime
       skipped_stop_states = nil
 
       # First figure out where we can reach on input t
-      closure.configs.each do |c|
+      i = 0
+      while i < closure.configs.length
+        c = closure.configs[i]
         puts('testing ' << token_name(t) << ' at ' << c.to_s) if @debug
 
         if c.state.is_a? RuleStopState
@@ -381,7 +383,7 @@ module Antlr4::Runtime
 
             skipped_stop_states.push(c)
           end
-
+          i += 1
           next
         end
 
@@ -397,6 +399,7 @@ module Antlr4::Runtime
           end
           ti += 1
         end
+        i += 1
       end
 
       # Now figure out where the reach operation can take us...
@@ -421,8 +424,11 @@ module Antlr4::Runtime
         reach = ATNConfigSet.new(full_ctx)
         closure_busy = Set.new
         treat_eof_as_epsilon = t == Token::EOF
-        intermediate.configs.each do |c|
+        i = 0
+        while i < intermediate.configs.length
+          c = intermediate.configs[i]
           closure(c, reach, closure_busy, false, full_ctx, treat_eof_as_epsilon)
+          i += 1
         end
       end
 
@@ -431,8 +437,11 @@ module Antlr4::Runtime
       end
 
       if !skipped_stop_states.nil? && (!full_ctx || !PredictionMode.has_config_in_rule_stop_state?(reach))
-        skipped_stop_states.each do |c|
+        i = 0
+        while i < skipped_stop_states.length
+          c = skipped_stop_states[i]
           reach.add(c, @merge_cache)
+          i += 1
         end
       end
 
@@ -444,21 +453,31 @@ module Antlr4::Runtime
       return configs if PredictionMode.all_configs_in_rule_stop_states?(configs)
 
       result = ATNConfigSet.new(configs.full_ctx)
-      configs.each do |config|
+      i = 0
+      while i < configs.length
+        config = configs[i]
         if config.state.is_a? RuleStopState
           result.add(config, @merge_cache)
+          i += 1
           next
         end
 
-        next unless look_to_end_of_rule && config.state.only_has_epsilon_transitions
+        unless look_to_end_of_rule && config.state.only_has_epsilon_transitions
+          i += 1
+          next
+        end
 
         next_tokens = atn.next_tokens(config.state)
-        next unless next_tokens.include?(Token::EPSILON)
+        unless next_tokens.include?(Token::EPSILON)
+          i += 1
+          next
+        end
 
         end_of_rule_state = atn.rule_to_stop_state[config.state.rule_index]
         atncfg = ATNConfig.new
         atncfg.atn_config3(config, end_of_rule_state)
         result.add(atncfg, @merge_cache)
+        i += 1
       end
 
       result
@@ -485,12 +504,18 @@ module Antlr4::Runtime
     def apply_precedence_filter(configs)
       states_from_alt1 = Map.new
       config_set = ATNConfigSet.new(configs.full_ctx)
-      configs.each do |config| # handle alt 1 first
-        next if config.alt != 1
+      i = 0
+      while i < configs.length
+        config = configs[i]
+        if config.alt != 1
+          i += 1
+          next
+        end
 
         updated_context = config.semantic_context.eval_precedence(@parser, @_outer_context)
         if updated_context.nil?
           # the configuration was eliminated
+          i += 1
           next
         end
 
@@ -502,11 +527,15 @@ module Antlr4::Runtime
         else
           config_set.add(config, @merge_cache)
         end
+        i += 1
       end
 
-      configs.each do |config|
+      i = 0
+      while i < configs.length
+        config = configs[i]
         if config.alt == 1
           # already handled
+          i += 1
           next
         end
 
@@ -515,11 +544,13 @@ module Antlr4::Runtime
           context = states_from_alt1.get(config.state.state_number)
           if !context.nil? && context.eql?(config.context)
             # eliminated
+            i += 1
             next
           end
         end
 
         config_set.add(config, @merge_cache)
+        i += 1
       end
 
       config_set
@@ -533,10 +564,13 @@ module Antlr4::Runtime
 
     def preds_for_ambig_alts(ambig_alts, configs, n_alts)
       alt_to_pred = []
-      configs.each do |c|
+      i = 0
+      while i < configs.length
+        c = configs[i]
         if ambig_alts.get(c.alt)
           alt_to_pred[c.alt] = SemanticContext.or(alt_to_pred[c.alt], c.semantic_context)
         end
+        i += 1
       end
 
       n_pred_alts = 0
@@ -593,12 +627,15 @@ module Antlr4::Runtime
 
     def alt_that_finished_decision_entry_rule(configs)
       alts = IntervalSet.new
-      configs.configs.each do |c|
+      i = 0
+      while i < configs.configs.length
+        c = configs.configs[i]
         depth = c.outer_context_depth
         class_name = c.state.class.name
         if depth > 0 || (class_name == 'Antlr4::Runtime::RuleStopState' && c.context.empty_path?)
           alts.add(c.alt)
         end
+        i += 1
       end
       return ATN::INVALID_ALT_NUMBER if alts.intervals.empty?
 
@@ -608,7 +645,9 @@ module Antlr4::Runtime
     def split_according_to_semantic_validity(configs, outer_ctx)
       succeeded = ATNConfigSet.new(configs.full_ctx)
       failed = ATNConfigSet.new(configs.full_ctx)
-      configs.configs.each do |c|
+      i = 0
+      while i < configs.configs.length
+        c = configs.configs[i]
         if c.semantic_context != SemanticContext::NONE
           predicate_evaluation_result = eval_semantic_context(c.semantic_context, outer_ctx, c.alt, configs.full_ctx)
           if predicate_evaluation_result
@@ -619,6 +658,7 @@ module Antlr4::Runtime
         else
           succeeded.add(c)
         end
+        i += 1
       end
 
       pair = OpenStruct.new
@@ -629,11 +669,13 @@ module Antlr4::Runtime
 
     def eval_semantic_context1(pred_predictions, outer_ctx, complete)
       predictions = BitSet.new
-      pred_predictions.each do |pair|
+      i = 0
+      while i < pred_predictions.length
+        pair = pred_predictions[i]
         if pair.pred == SemanticContext::NONE
           predictions.set(pair.alt)
           break unless complete
-
+          i += 1
           next
         end
 
@@ -643,11 +685,15 @@ module Antlr4::Runtime
           puts('eval pred ' << pair << '=' << predicate_evaluation_result)
         end
 
-        next unless predicate_evaluation_result
+        unless predicate_evaluation_result
+          i += 1
+          next
+        end
 
         puts('PREDICT ' << pair.alt) if @debug || @dfa_debug
         predictions.set(pair.alt)
         break unless complete
+        i += 1
       end
 
       predictions
@@ -1042,12 +1088,15 @@ module Antlr4::Runtime
 
     def unique_alt(configs)
       alt = ATN::INVALID_ALT_NUMBER
-      configs.configs.each do |c|
+      i = 0
+      while i < configs.configs.length
+        c = configs.configs[i]
         if alt == ATN::INVALID_ALT_NUMBER
           alt = c.alt # found first alt
         elsif c.alt != alt
           return ATN::INVALID_ALT_NUMBER
         end
+        i += 1
       end
       alt
     end

@@ -67,11 +67,14 @@ module Antlr4::Runtime
         return nil # no bucket
       end
 
-      bucket.each do |e|
+      i = 0
+      while i < bucket.length
+        e = bucket[i]
         if e.nil?
           return nil # empty slot not there
         end
         return e if @comparator.equals(e, o)
+        i += 1
       end
       nil
     end
@@ -83,14 +86,23 @@ module Antlr4::Runtime
 
     def hash
       hash_code = 0
-      @buckets.each do |bucket|
-        next if bucket.nil?
+      i = 0
+      while i < @buckets.length
+        bucket = @buckets[i]
+        if bucket.nil?
+          i += 1
+          next
+        end
 
-        bucket.each do |o|
+        j = 0
+        while j < bucket.length
+          o = bucket[j]
           break if o.nil?
 
           hash_code = MurmurHash.update_int(hash_code, @comparator.hash(o))
+          j += 1
         end
+        i += 1
       end
 
       hash_code = MurmurHash.finish(hash, size)
@@ -146,15 +158,24 @@ module Antlr4::Runtime
     def to_a
       a = create_bucket(size)
       i = 0
-      @buckets.each do |bucket|
-        next if bucket.nil?
+      j = 0
+      while j < @buckets.length
+        bucket = @buckets[j]
+        if bucket.nil?
+          j += 1
+          next
+        end
 
-        bucket.each do |o|
+        k = 0
+        while k < bucket.length
+          o = bucket[k]
           break if o.nil?
 
           a[i] = o
           i += 1
+          k += 1
         end
+        j += 1
       end
       a
     end
@@ -194,17 +215,29 @@ module Antlr4::Runtime
     def contains_all(collection)
       if collection.is_a? Array2DHashSet
         s = collection
-        s.buckets.each do |bucket|
-          next if bucket.nil?
+        i = 0
+        while i < s.buckets.length
+          bucket = s.buckets[i]
+          if bucket.nil?
+            i += 1
+            next
+          end
 
-          bucket.each do |o|
+          j = 0
+          while j < bucket.length
+            o = bucket[j]
             break if o.nil?
             return false unless contains_fast(o)
+            j += 1
           end
+          i += 1
         end
       else
-        collection.each do |o|
+        i = 0
+        while i < collection.length
+          o = collection[i]
           return false unless contains_fast(o)
+          i += 1
         end
       end
       true
@@ -212,17 +245,25 @@ module Antlr4::Runtime
 
     def add_all(c)
       changed = false
-      c.each do |o|
+      i = 0
+      while i < c.length
+        o = c[i]
         existing = get_or_add(o)
         changed = true if existing != o
+        i += 1
       end
       changed
     end
 
     def retain_all(c)
       newsize = 0
-      @buckets.each do |bucket|
-        next if bucket.nil?
+      k = 0
+      while k < @buckets.length
+        bucket = @buckets[k]
+        if bucket.nil?
+          k += 1
+          next
+        end
 
         i = 0
         j = 0
@@ -246,6 +287,7 @@ module Antlr4::Runtime
           bucket[j] = nil
           j += 1
         end
+        k += 1
       end
 
       changed = newsize != @n_elements
@@ -255,8 +297,11 @@ module Antlr4::Runtime
 
     def remove_all(c)
       changed = false
-      c.each do |o|
+      i = 0
+      while i < c.length
+        o = c[i]
         changed |= remove_fast(o)
+        i += 1
       end
 
       changed
@@ -274,10 +319,17 @@ module Antlr4::Runtime
       buf = ''
       buf << '{'
       first = true
-      @buckets.each do |bucket|
-        next if bucket.nil?
+      i = 0
+      while i < @buckets.length
+        bucket = @buckets[i]
+        if bucket.nil?
+          i += 1
+          next
+        end
 
-        bucket.each do |o|
+        j = 0
+        while j < bucket.length
+          o = bucket[j]
           break if o.nil?
 
           if first
@@ -286,7 +338,9 @@ module Antlr4::Runtime
             buf << ', '
             buf << o.to_s
           end
+          j += 1
         end
+        i += 1
       end
       buf << '}'
       buf
@@ -294,13 +348,17 @@ module Antlr4::Runtime
 
     def to_table_string
       buf = ''
-      @buckets.each do |bucket|
+      i = 0
+      while i < @buckets.length
+        bucket = @buckets[i]
         if bucket.nil?
           buf << "null\n"
         else
           buf << '['
           first = true
-          bucket.each do |o|
+          j = 0
+          while j < bucket.length
+            o = bucket[j]
             if first
               first = false
             else
@@ -311,9 +369,11 @@ module Antlr4::Runtime
                    else
                      o.to_s
                    end
+            j += 1
           end
           buf << "]\n"
         end
+        i += 1
       end
       buf
     end
@@ -365,10 +425,17 @@ module Antlr4::Runtime
       @threshold = (new_capacity * LOAD_FACTOR).floor
 
       old_size = size
-      old.each do |bucket|
-        next if bucket.nil?
+      j = 0
+      while j < old.length
+        bucket = old[j]
+        if bucket.nil?
+          j += 1
+          next
+        end
 
-        bucket.each do |o|
+        k = 0
+        while k < bucket.length
+          o = bucket[k]
           break if o.nil?
 
           b = get_bucket(o)
@@ -392,7 +459,9 @@ module Antlr4::Runtime
 
           new_bucket[bucket_length] = o
           new_bucket_lengths[b] += 1
+          k += 1
         end
+        j += 1
       end
 
       raise StandardError, '@nElements != oldSize' if @n_elements != old_size

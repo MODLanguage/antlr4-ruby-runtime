@@ -215,9 +215,14 @@ module Antlr4::Runtime
     def reachable_config_set(input, closure, reach, t) # this is used to skip processing for configs which have a lower priority
       # than a config that already reached an accept state for the same rule
       skip_alt = ATN::INVALID_ALT_NUMBER
-      closure.configs.each do |c|
+      i = 0
+      while i < closure.configs.length
+        c = closure.configs[i]
         current_alt_reached_accept_state = (c.alt == skip_alt)
-        next if current_alt_reached_accept_state && c.passed_through_non_greedy_decision
+        if current_alt_reached_accept_state && c.passed_through_non_greedy_decision
+          i += 1
+          next
+        end
 
         if @@debug
           printf format("testing %s at %s\n", token_name(t), c.to_s2(@recog, true))
@@ -246,6 +251,7 @@ module Antlr4::Runtime
           end
           ti += 1
         end
+        i += 1
       end
     end
 

@@ -10,8 +10,11 @@ module Antlr4::Runtime
       @lexer_actions = lexer_actions
 
       @hash_code = 7
-      lexer_actions.each do |lexer_action|
+      i = 0
+      while i < lexer_actions.length
+        lexer_action = lexer_actions[i]
         @hash_code = MurmurHash.update_obj(@hash_code, lexer_action)
+        i += 1
       end
 
       @hash_code = MurmurHash.finish(@hash_code, lexer_actions.length)
@@ -46,7 +49,9 @@ module Antlr4::Runtime
       requires_seek = false
       stop_index = input.index
       begin
-        @lexer_actions.each do |lexerAction|
+        i = 0
+        while i < @lexer_actions.length
+          lexerAction = @lexer_actions[i]
           if lexerAction.is_a? LexerIndexedCustomAction
             offset = lexerAction.getOffset
             input.seek(start_index + offset)
@@ -59,6 +64,7 @@ module Antlr4::Runtime
 
             lexerAction.execute(lexer)
           end
+          i += 1
         end
       ensure
         input.seek(stop_index) if requires_seek

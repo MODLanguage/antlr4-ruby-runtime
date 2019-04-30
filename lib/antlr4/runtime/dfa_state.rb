@@ -57,8 +57,11 @@ module Antlr4::Runtime
     def alt_set
       alts = Set.new
       unless @configs.nil?
-        @configs.each do |c|
+        i = 0
+        while i < @configs.length
+          c = @configs[i]
           alts.add(c.alt)
+          i += 1
         end
       end
       return nil if alts.empty?

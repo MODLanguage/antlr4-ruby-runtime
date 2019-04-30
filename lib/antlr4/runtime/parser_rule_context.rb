@@ -21,8 +21,11 @@ module Antlr4::Runtime
       unless ctx.children.nil?
         @children = []
         # reset parent pointer for any error nodes
-        ctx.children.each do |child|
+        i = 0
+        while i < ctx.children.length
+          child = ctx.children[i]
           addChild(child) if child.is_a ErrorNode
+          i += 1
         end
       end
     end
@@ -70,11 +73,17 @@ module Antlr4::Runtime
       return nil if @children.nil? || i < 0 || i >= @children.length
 
       j = -1 # what element have we found with ctx_type?
-      @children.each do |o|
-        next unless o.class.name.include? ctxType
+      k = 0
+      while k < @children.length
+        o = @children[k]
+        unless o.class.name.include? ctxType
+          k += 1
+          next
+        end
 
         j += 1
         return o if j == i
+        k += 1
       end
       nil
     end
@@ -83,8 +92,13 @@ module Antlr4::Runtime
       return nil if @children.nil? || i < 0 || i >= @children.length
 
       j = -1 # what token with ttype have we found?
-      @children.each do |o|
-        next unless o.is_a? TerminalNode
+      k = 0
+      while k < @children.length
+        o = @children[k]
+        unless o.is_a? TerminalNode
+          k += 1
+          next
+        end
 
         tnode = o
         symbol = tnode.symbol
@@ -92,6 +106,7 @@ module Antlr4::Runtime
           j += 1
           return tnode if j == i
         end
+        k += 1
       end
 
       nil
@@ -101,8 +116,13 @@ module Antlr4::Runtime
       return [] if @children.nil?
 
       tokens = nil
-      @children.each do |o|
-        next unless o.is_a? TerminalNode
+      i = 0
+      while i < @children.length
+        o = @children[i]
+        unless o.is_a? TerminalNode
+          i += 1
+          next
+        end
 
         tnode = o
         symbol = tnode.symbol
@@ -110,6 +130,7 @@ module Antlr4::Runtime
           tokens = [] if tokens.nil?
           tokens << tnode
         end
+        i += 1
       end
 
       return [] if tokens.nil?
@@ -125,12 +146,17 @@ module Antlr4::Runtime
       return [] if @children.nil?
 
       contexts = nil
-      @children.each do |o|
-        next unless o.class.name.include? ctxType
+      i = 0
+      while i < @children.length
+        o = @children[i]
+        unless o.class.name.include? ctxType
+          i += 1
+          next
+        end
 
         contexts = [] if contexts.nil?
-
         contexts << o
+        i += 1
       end
 
       return [] if contexts.nil?

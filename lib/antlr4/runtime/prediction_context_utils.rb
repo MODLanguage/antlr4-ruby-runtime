@@ -408,12 +408,18 @@ module Antlr4::Runtime
     def self.calculate_hash_code2(parents, return_states)
       hash_code = INITIAL_HASH
 
-      parents.each do |parent|
+      i = 0
+      while i < parents.length
+        parent = parents[i]
         hash_code = MurmurHash.update_obj(hash_code, parent)
+        i += 1
       end
 
-      return_states.each do |returnState|
+      i = 0
+      while i < return_states.length
+        returnState = return_states[i]
         hash_code = MurmurHash.update_int(hash_code, returnState)
+        i += 1
       end
 
       MurmurHash.finish(hash_code, 2 * parents.length)

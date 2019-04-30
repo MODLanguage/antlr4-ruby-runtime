@@ -4,8 +4,11 @@ module Antlr4::Runtime
       n = 0
       return n if data.nil?
 
-      data.each do |o|
+      i = 0
+      while i < data.length
+        o = datap[i]
         n += 1 unless o.nil?
+        i += 1
       end
       n
     end

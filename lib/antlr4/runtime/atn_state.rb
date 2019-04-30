@@ -76,7 +76,9 @@ module Antlr4::Runtime
       end
       already_present = false
 
-      @transitions.each do |t|
+      i = 0
+      while i < @transitions.length
+        t = @transitions[i]
         if t.target.state_number == e.target.state_number
 
           if !t.label.nil? && !e.label.nil? && t.label.eql?(e.label)
@@ -87,6 +89,7 @@ module Antlr4::Runtime
             break
           end
         end
+        i += 1
       end
 
       @transitions[index] = e unless already_present

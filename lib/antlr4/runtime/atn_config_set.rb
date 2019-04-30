@@ -24,8 +24,11 @@ module Antlr4::Runtime
 
     def alts
       alts = BitSet.new
-      @configs.each do |config|
+      i = 0
+      while i < @configs.length
+        config = @configs[i]
         alts.set(config.alt)
+        i += 1
       end
       alts
     end
@@ -63,11 +66,14 @@ module Antlr4::Runtime
     def find_first_rule_stop_state
       result = nil
 
-      @configs.each do |config|
+      i = 0
+      while i < @configs.length
+        config = @configs[i]
         if config.state.is_a? RuleStopState
           result = config
           break
         end
+        i += 1
       end
       result
     end
@@ -79,8 +85,11 @@ module Antlr4::Runtime
     def to_s
       buf = ''
       buf << '<'
-      @configs.each do |c|
+      i = 0
+      while i < @configs.length
+        c = @configs[i]
         buf << c.to_s << ' '
+        i += 1
       end
       buf << '>'
 
@@ -111,8 +120,11 @@ module Antlr4::Runtime
       raise IllegalStateException, 'This set is readonly' if @readonly
       return if @config_lookup.empty?
 
-      @configs.each do |config|
+      i = 0
+      while i < @configs.length
+        config = @configs[i]
         config.context = interpreter.cached_context(config.context)
+        i += 1
       end
     end
 

@@ -141,8 +141,11 @@ module Antlr4::Runtime
       end
 
       def eval(parser, parser_call_stack)
-        @opnds.each do |opnd|
+        i = 0
+        while i < @opnds.length
+          opnd = @opnds[i]
           return false unless opnd.eval(parser, parser_call_stack)
+          i += 1
         end
         true
       end
@@ -150,7 +153,9 @@ module Antlr4::Runtime
       def eval_precedence(parser, parser_call_stack)
         differs = false
         operands = []
-        @opnds.each do |context|
+        i = 0
+        while i < @opnds.length
+          context = @opnds[i]
           evaluated = context.eval_precedence(parser, parser_call_stack)
           differs |= (evaluated != context)
           if evaluated == null
@@ -160,6 +165,7 @@ module Antlr4::Runtime
             # Reduce the result by skipping true elements
             operands.add(evaluated)
           end
+          i += 1
         end
 
         return self unless differs
@@ -230,8 +236,11 @@ module Antlr4::Runtime
       end
 
       def eval(parser, parser_call_stack)
-        @opnds.each do |opnd|
+        i = 0
+        while i < @opnds.length
+          opnd = @opnds[i]
           return true if opnd.eval(parser, parser_call_stack)
+          i += 1
         end
         false
       end
@@ -239,7 +248,9 @@ module Antlr4::Runtime
       def eval_precedence(parser, parser_call_stack)
         differs = false
         operands = []
-        @opnds.each do |context|
+        i = 0
+        while i < @opnds.length
+          context = @opnds[i]
           evaluated = context.eval_precedence(parser, parser_call_stack)
           differs |= (evaluated != context)
           if evaluated == NONE
@@ -249,6 +260,7 @@ module Antlr4::Runtime
             # Reduce the result by skipping false elements
             operands.add(evaluated)
           end
+          i += 1
         end
         return self unless differs
 

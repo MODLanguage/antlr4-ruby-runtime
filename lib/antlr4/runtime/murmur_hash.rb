@@ -38,8 +38,11 @@ module Antlr4::Runtime
 
     def self.hash(data, seed)
       hash = seed
-      data.each do |value|
+      i = 0
+      while i < data.length
+        value = data[i]
         hash = update_obj(hash, value)
+        i += 1
       end
 
       finish(hash, data.length)

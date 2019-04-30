@@ -164,12 +164,18 @@ module Antlr4::Runtime
         i += 1
       end
 
-      loop_back_state_numbers.each do |pair|
+      i = 0
+      while i < loop_back_state_numbers.length
+        pair = loop_back_state_numbers[i]
         pair.a.loopback_state = atn.states[pair.b]
+        i += 1
       end
 
-      end_state_numbers.each do |pair|
+      i = 0
+      while i < end_state_numbers.length
+        pair = end_state_numbers[i]
         pair.a.end_state = atn.states[pair.b]
+        i += 1
       end
 
       num_non_greedy_states = data[p]
@@ -221,12 +227,18 @@ module Antlr4::Runtime
       end
 
       atn.rule_to_stop_state = []
-      atn.states.each do |state|
-        next unless state.is_a? RuleStopState
+      i = 0
+      while i < atn.states.length
+        state = atn.states[i]
+        unless state.is_a? RuleStopState
+          i += 1
+          next
+        end
 
         stop_state = state
         atn.rule_to_stop_state[state.rule_index] = stop_state
         atn.rule_to_start_state[state.rule_index].stop_state = stop_state
+        i += 1
       end
 
       n_modes = data[p]
@@ -264,7 +276,9 @@ module Antlr4::Runtime
         i += 1
       end
 
-      atn.states.each do |state|
+      k = 0
+      while k < atn.states.length
+        state = atn.states[k]
         i = 0
         while i < state.number_of_transitions
           t = state.transition(i)
@@ -285,9 +299,12 @@ module Antlr4::Runtime
           atn.rule_to_stop_state[rule_transition.target.rule_index].add_transition(return_transition)
           i += 1
         end
+        k += 1
       end
 
-      atn.states.each do |state|
+      k = 0
+      while k < atn.states.length
+        state = atn.states[k]
         if state.is_a? BlockStartState
           raise IllegalStateException if state.end_state.nil?
 
@@ -317,6 +334,7 @@ module Antlr4::Runtime
             i += 1
           end
         end
+        k += 1
       end
 
       n_decisions = data[p]
@@ -354,11 +372,16 @@ module Antlr4::Runtime
           end
         else
           legacy_lexer_actions = []
-          atn.states.each do |state|
+          k = 0
+          while k < atn.states.length
+            state = atn.states[k]
             i = 0
             while i < state.number_of_transitions
               transition = state.transition(i)
-              next unless transition.is_a? ActionTransition
+              unless transition.is_a? ActionTransition
+                i += 1
+                next
+              end
 
               rule_index = transition.rule_index
               action_index = transition.action_index
@@ -367,6 +390,7 @@ module Antlr4::Runtime
               legacy_lexer_actions << lexer_action
               i += 1
             end
+            k += 1
           end
 
           atn._a = legacy_lexer_actions
@@ -403,18 +427,30 @@ module Antlr4::Runtime
           exclude_transition = nil
           if atn.rule_to_start_state[i].is_left_recursive_rule
             end_state = nil
-            atn.states.each do |state|
-              next if state.rule_index != i
+            i = 0
+            while i < atn.states.length
+              state = atn.states[i]
+              if state.rule_index != i
+                i += 1
+                next
+              end
 
-              next unless state.is_a? StarLoopEntryState
+              unless state.is_a? StarLoopEntryState
+                i += 1
+                next
+              end
 
               maybe_loop_end_state = state.transition(state.number_of_transitions - 1).target
-              next unless maybe_loop_end_state.is_a? LoopEndState
+              unless maybe_loop_end_state.is_a? LoopEndState
+                i += 1
+                next
+              end
 
               if maybe_loop_end_state.epsilon_only_transitions && maybe_loop_end_state.transition(0).target.is_a?(RuleStopState)
                 end_state = state
                 break
               end
+              i += 1
             end
 
             if end_state.nil?
@@ -426,12 +462,21 @@ module Antlr4::Runtime
             end_state = atn.rule_to_stop_state[i]
           end
 
-          atn.states.each do |state|
-            state.transitions.each do |transition|
-              next if transition == exclude_transition
+          i = 0
+          while i < atn.states.length
+            state = atn.states[i]
+            j = 0
+            while j < state.transitions.length
+              transition = state.transitions[j]
+              if transition == exclude_transition
+                j += 1
+                next
+              end
 
               transition.target = bypass_stop if transition.target == end_state
+              j += 1
             end
+            i += 1
           end
 
           while atn.rule_to_start_state[i].number_of_transitions > 0
@@ -483,23 +528,40 @@ module Antlr4::Runtime
     end
 
     def mark_precedence_decisions(atn)
-      atn.states.each do |state|
-        next unless state.is_a? StarLoopEntryState
+      i = 0
+      while i < atn.states.length
+        state = atn.states[i]
+        unless state.is_a? StarLoopEntryState
+          i += 1
+          next
+        end
 
-        next unless atn.rule_to_start_state[state.rule_index].is_left_recursive_rule
+        unless atn.rule_to_start_state[state.rule_index].is_left_recursive_rule
+          i += 1
+          next
+        end
 
         maybeLoopEndState = state.transition(state.number_of_transitions - 1).target
-        next unless maybeLoopEndState.is_a? LoopEndState
+        unless maybeLoopEndState.is_a? LoopEndState
+          i += 1
+          next
+        end
 
         if maybeLoopEndState.epsilon_only_transitions && maybeLoopEndState.transition(0).target.is_a?(RuleStopState)
           state.is_precedence_pecision = true
         end
+        i += 1
       end
     end
 
     def verify_atn(atn)
-      atn.states.each do |state|
-        next if state.nil?
+      i = 0
+      while i < atn.states.length
+        state = atn.states[i]
+        if state.nil?
+          i += 1
+          next
+        end
 
         check_condition(state.only_has_epsilon_transitions || state.number_of_transitions <= 1)
 
@@ -542,6 +604,7 @@ module Antlr4::Runtime
         else
           check_condition(state.number_of_transitions <= 1 || state.is_a?(RuleStopState))
         end
+        i += 1
       end
     end
 

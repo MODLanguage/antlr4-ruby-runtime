@@ -43,11 +43,16 @@ module Antlr4::Runtime
         if configs.has_semantic_context
           # dup configs, tossing out semantic predicates
           dup = ATNConfigSet.new
-          configs.configs.each do |cfg|
+          i = 0
+          while i < configs.configs.length
+            cfg = configs.configs[i]
             c = ATNConfig.new
             c.atn_config5(cfg, SemanticContext::NONE)
             dup.add(c)
+
+            i += 1
           end
+
           configs = dup
         end
         # now we have combined contexts for configs with dissimilar preds
@@ -61,16 +66,20 @@ module Antlr4::Runtime
     end
 
     def self.has_config_in_rule_stop_state?(configs)
-      configs.configs.each do |c|
-        return true if c.state.is_a? RuleStopState
+      i = 0
+      while i < configs.configs.length
+        return true if configs.configs[i].state.is_a? RuleStopState
+        i += 1
       end
 
       false
     end
 
     def self.all_configs_in_rule_stop_states?(configs)
-      configs.configs.each do |config|
-        return false unless config.state.is_a? RuleStopState
+      i = 0
+      while i < configs.configs.length
+        return false unless configs.configs[i].state.is_a? RuleStopState
+        i += 1
       end
 
       true
@@ -85,27 +94,36 @@ module Antlr4::Runtime
     end
 
     def self.has_non_conflicting_alt_set?(altsets)
-      altsets.each do |alts|
+      i = 0
+      while i < altsets.length
+        alts = altsets[i]
         return true if alts.cardinality == 1
+        i += 1
       end
       false
     end
 
     def self.has_conflicting_alt_set?(altsets)
-      altsets.each do |alts|
+      i = 0
+      while i < altsets.length
+        alts = altsets[i]
         return true if alts.cardinality > 1
+        i += 1
       end
       false
     end
 
     def all_subsets_equal?(altsets)
       first = nil
-      altsets.each_index do |alt, i|
+      i = 0
+      while i < altsets.length
+        alt = altsets[i]
         if i == 0
           first = altsets[0]
         else
           return false unless alt.eql?(first)
         end
+        i += 1
       end
       true
     end
@@ -119,60 +137,78 @@ module Antlr4::Runtime
 
     def self.get_alts1(altsets)
       all = BitSet.new
-      altsets.each do |alts|
+      i = 0
+      while i < altsets.length
+        alts = altsets[i]
         all.or(alts)
+        i += 1
       end
       all
     end
 
     def get_alts2(configs)
       alts = BitSet.new
-      configs.each do |config|
+      i = 0
+      while i < configs.length
+        config = configs[i]
         alts.set(config.alt)
+        i += 1
       end
       alts
     end
 
     def self.conflicting_alt_subsets(configs)
       config_to_alts = AltAndContextMap.new
-      configs.configs.each do |c|
+      i = 0
+      while i < configs.configs.length
+        c = configs.configs[i]
         alts = config_to_alts.get(c)
         if alts.nil?
           alts = BitSet.new
           config_to_alts.put(c, alts)
         end
         alts.set(c.alt)
+        i += 1
       end
       config_to_alts.values
     end
 
     def self.state_to_alt_map(configs)
       m = {}
-      configs.configs.each do |c|
+      i = 0
+      while i < configs.configs.length
+        c = configs.configs[i]
         alts = m[c.state]
         if alts.nil?
           alts = BitSet.new
           m[c.state] = alts
         end
         alts.set(c.alt)
+        i += 1
       end
       m
     end
 
     def self.has_state_associated_with_one_alt?(configs)
       x = state_to_alt_map(configs)
-      x.values.each do |alts|
+      i = 0
+      while i < x.values.length
+        alts = x.values[i]
         return true if alts.cardinality == 1
+        i += 1
       end
       false
     end
 
     def self.single_viable_alt(altsets)
       viable_alts = BitSet.new
-      altsets.each do |alts|
+      i = 0
+      while i < altsets.length
+        alts = altsets[i]
         min_alt = alts.next_set_bit(0)
         viable_alts.set(min_alt)
         return ATN::INVALID_ALT_NUMBER if viable_alts.cardinality > 1 # more than 1 viable alt
+        i += 1
       end
       viable_alts.next_set_bit(0)
     end
