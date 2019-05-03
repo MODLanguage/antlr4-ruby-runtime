@@ -1,53 +1,56 @@
 module Antlr4::Runtime
 
   class BitSet
+    MAX_BITS = 128
+
     attr_reader :bits
 
     def initialize
-      @bits = Set.new
+      @bits = 0
     end
 
     def set(x)
-      @bits.add x
+      @bits |= (1 << x)
     end
 
     def get(x)
-      @bits.include? x ? true : false
+      (@bits & (1 << x)) > 0 ? true : false
     end
 
     def cardinality
-      @bits.length
+      count = 0
+      i = 0
+      mask = 1
+      while i < MAX_BITS
+        count += 1 if (@bits & mask) > 0
+        mask <<= 1
+        i += 1
+      end
+      count
     end
 
     def or(bit_set)
-      bit_set.bits.each(&method(:set))
+      @bits |= bit_set.bits
     end
 
     def next_set_bit(bit)
-      result = -1
-
-      @bits.each do |b|
-        if b >= bit
-          result = b
-          break
+      result = bit
+      i = 0
+      mask = (1 << bit)
+      while i < MAX_BITS
+        if (@bits & mask) > 0
+          return result
         end
+        result += 1
+        mask <<= 1
+        i += 1
       end
-      result
+      -1
     end
 
     def to_s
-      max = 0
-      @bits.each {|b| max = b if b > max}
-      v = Array.new(max, 0)
-      @bits.each do |bit|
-        v[bit] = 1
-      end
       buf = '['
-      tmp = ''
-      v.each do |c|
-        tmp << c.to_s
-      end
-      buf << tmp.reverse!
+      buf << @bits.to_s(2)
       buf << ']'
       buf
     end
