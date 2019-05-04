@@ -8,6 +8,8 @@
 /tmp/
 *.gem
 .idea
+*.bundle
+*.o
 
 # rspec failure tracking
 .rspec_status
