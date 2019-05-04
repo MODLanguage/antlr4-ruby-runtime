@@ -3,9 +3,15 @@ require 'singleton'
 require 'ostruct'
 require 'weakref'
 
+require "rumourhash/rumourhash"
+
 module Antlr4
   module Runtime
   end
+end
+
+module RumourHash
+
 end
 
 require 'antlr4/runtime/interval'
