@@ -14,6 +14,10 @@ module RumourHash
 
 end
 
+module BitCount
+
+end
+
 require 'antlr4/runtime/interval'
 require 'antlr4/runtime/char_streams'
 require 'antlr4/runtime/common_token_stream'

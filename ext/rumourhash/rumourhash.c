@@ -37,9 +37,23 @@ static VALUE rumour_hash_finish(VALUE self, VALUE hashv, VALUE n_wordsv) {
     return LONG2NUM(hash);
 }
 
+static VALUE bit_count(VALUE self, VALUE v) {
+    long num = NUM2LONG(v);
+    int count = 0;
+
+    while (num)
+    {
+      num &= (num-1) ;
+      count++;
+    }
+
+    return INT2NUM(count);
+}
+
 void Init_rumourhash() {
   VALUE mod = rb_define_module("RumourHash");
   rb_define_method(mod, "rumour_hash_update_int", rumour_hash_update_int, 2);
   rb_define_method(mod, "rumour_hash_finish", rumour_hash_finish, 2);
+  rb_define_method(mod, "bit_count", bit_count, 1);
 }
 

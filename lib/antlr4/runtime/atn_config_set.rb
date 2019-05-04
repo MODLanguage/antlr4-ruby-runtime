@@ -106,7 +106,7 @@ module Antlr4::Runtime
 
     class AbstractConfigHashSet < Array2DHashSet
       def initialize(comparator)
-        super(comparator, 16, 16)
+        super(comparator, 64, 64)
       end
     end
 

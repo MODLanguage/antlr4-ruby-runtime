@@ -16,11 +16,11 @@ module Antlr4::Runtime
       1
     end
 
-    def parent(_index)
+    def parent(_index=nil)
       nil
     end
 
-    def return_state(_index)
+    def return_state(_index=nil)
       @return_state
     end
 

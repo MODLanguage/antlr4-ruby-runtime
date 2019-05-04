@@ -16,7 +16,7 @@ module Antlr4::Runtime
     def self.hash_int_obj(num, obj)
       hash_code = 7
       hash_code = RumourHash.rumour_hash_update_int(hash_code, num)
-      hash_code = update_obj(hash_code, obj)
+      hash_code = RumourHash.rumour_hash_update_int(hash_code, !obj.nil? ? obj.hash : 0)
       RumourHash.rumour_hash_finish(hash_code, 2)
     end
 
@@ -24,8 +24,8 @@ module Antlr4::Runtime
       hash_code = 7
       hash_code = RumourHash.rumour_hash_update_int(hash_code, num1)
       hash_code = RumourHash.rumour_hash_update_int(hash_code, num2)
-      hash_code = update_obj(hash_code, obj1)
-      hash_code = update_obj(hash_code, obj2)
+      hash_code = RumourHash.rumour_hash_update_int(hash_code, !obj1.nil? ? obj1.hash : 0)
+      hash_code = RumourHash.rumour_hash_update_int(hash_code, !obj2.nil? ? obj2.hash : 0)
       RumourHash.rumour_hash_finish(hash_code, 4)
     end
 
@@ -42,7 +42,7 @@ module Antlr4::Runtime
       i = 0
       while i < objs.length
         obj = objs[i]
-        hash_code = update_obj(hash_code, obj)
+        hash_code = RumourHash.rumour_hash_update_int(hash_code, !obj.nil? ? obj.hash : 0)
         i += 1
       end
 
@@ -55,7 +55,7 @@ module Antlr4::Runtime
       i = 0
       while i < objs.length
         obj = objs[i]
-        hash_code = update_obj(hash_code, obj)
+        hash_code = RumourHash.rumour_hash_update_int(hash_code, !obj.nil? ? obj.hash : 0)
         i += 1
       end
 
@@ -84,16 +84,12 @@ module Antlr4::Runtime
 
     private
 
-    def self.update_obj(hash, value)
-      RumourHash.rumour_hash_update_int(hash, !value.nil? ? value.hash : 0)
-    end
-
     def self.hash(data, seed)
       hash = seed
       i = 0
       while i < data.length
         value = data[i]
-        hash = update_obj(hash, value)
+        hash = RumourHash.rumour_hash_update_int(hash, !value.nil? ? value.hash : 0)
         i += 1
       end
 

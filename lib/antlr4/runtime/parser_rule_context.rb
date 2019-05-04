@@ -76,7 +76,7 @@ module Antlr4::Runtime
       k = 0
       while k < @children.length
         o = @children[k]
-        unless o.class.name.include? ctxType
+        unless o.class.name.end_with? ctxType
           k += 1
           next
         end
@@ -149,7 +149,7 @@ module Antlr4::Runtime
       i = 0
       while i < @children.length
         o = @children[i]
-        unless o.class.name.include? ctxType
+        unless o.class.name.end_with? ctxType
           i += 1
           next
         end

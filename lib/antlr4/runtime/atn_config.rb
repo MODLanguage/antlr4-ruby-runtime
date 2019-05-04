@@ -17,10 +17,6 @@ module Antlr4::Runtime
     def bucket_hash
       return @_bucket_hash unless @_bucket_hash.nil?
 
-      hash_code = 7
-      hash_code = 31 * hash_code + @state.state_number
-      hash_code = 31 * hash_code + @alt
-      31 * hash_code + @semantic_context.hash
       if !@_bucket_hash.nil?
         if hash_code == @_bucket_hash
           puts 'Same hash_code for ATNConfig.bucket_hash'
@@ -28,7 +24,7 @@ module Antlr4::Runtime
           puts 'Different hash_code for ATNConfig.bucket_hash'
         end
       end
-      @_bucket_hash = hash_code
+      @_bucket_hash = MurmurHash.hash_int_int(@state.state_number, @alt)
     end
 
     def atn_config_copy(old)
