@@ -784,16 +784,13 @@ module Antlr4::Runtime
         continue_collecting = !(t.is_a? ActionTransition) && collect_predicates
         c = epsilon_target(config, t, continue_collecting, depth == 0, full_ctx, treat_eof_as_epsilon)
         unless c.nil?
-          added = false
-          unless closure_busy.include? c
-            closure_busy.add(c)
-            added = true
-          end
+          added = closure_busy.add?(c)
+
           unless added
-            # avoid infinite recursion for right-recursive rules
             i += 1
             next
           end
+
           new_depth = depth
           if config.state.is_a? RuleStopState
             # target fell off end of rule mark resulting c as having dipped into outer context

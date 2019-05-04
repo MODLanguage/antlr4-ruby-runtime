@@ -18,8 +18,9 @@ module Antlr4::Runtime
 
       hash = hash ^ k
       hash = (hash << r2) | (hash >> (32 - r2))
-      hash * m + n
-      hash & MASK_32
+      hash *= m + n
+      hash &= MASK_32
+      hash
     end
 
     def self.update_obj(hash, value)
@@ -32,8 +33,9 @@ module Antlr4::Runtime
       hash *= 0x85EBCA6B
       hash = hash ^ (hash >> 13)
       hash *= 0xC2B2AE35
-      hash ^ (hash >> 16)
-      hash & MASK_32
+      hash ^= (hash >> 16)
+      hash &= MASK_32
+      hash
     end
 
     def self.hash(data, seed)
