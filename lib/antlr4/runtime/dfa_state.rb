@@ -72,9 +72,8 @@ module Antlr4::Runtime
     def hash
       return @_hash unless @_hash.nil?
 
-      hash_code = 7
-      hash_code = MurmurHash.update_int(hash_code, configs.hash)
-      hash_code = MurmurHash.finish(hash_code, 1)
+      hash_code = MurmurHash.hash_int(configs.hash)
+
       if !@_hash.nil?
         if hash_code == @_hash
           puts 'Same hash_code for DFAState'

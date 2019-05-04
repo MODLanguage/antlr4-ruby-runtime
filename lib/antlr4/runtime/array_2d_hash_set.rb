@@ -85,7 +85,7 @@ module Antlr4::Runtime
     end
 
     def hash
-      hash_code = 0
+      objs = []
       i = 0
       while i < @buckets.length
         bucket = @buckets[i]
@@ -99,13 +99,14 @@ module Antlr4::Runtime
           o = bucket[j]
           break if o.nil?
 
-          hash_code = MurmurHash.update_int(hash_code, @comparator.hash(o))
+          objs << o
           j += 1
         end
         i += 1
       end
 
-      hash_code = MurmurHash.finish(hash, size)
+      hash_code = MurmurHash.hash_objs(objs)
+
       if !@_hash.nil?
         if hash_code == @_hash
           puts 'Same hash_code for Array2DHashSet'

@@ -26,11 +26,8 @@ module Antlr4::Runtime
       def hash
         return @_hash unless @_hash.nil?
 
-        hash_code = 0
-        hash_code = MurmurHash.update_int(hash_code, @rule_index)
-        hash_code = MurmurHash.update_int(hash_code, @pred_index)
-        hash_code = MurmurHash.update_int(hash_code, @is_ctx_dependent ? 1 : 0)
-        hash_code = MurmurHash.finish(hash_code, 3)
+        hash_code = MurmurHash.hash_ints([@rule_index, @pred_index, @is_ctx_dependent ? 1 : 0])
+
         if !@_hash.nil?
           if hash_code == @_hash
             puts 'Same hash_code for SemanticContext'

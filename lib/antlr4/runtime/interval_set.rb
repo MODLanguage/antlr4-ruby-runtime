@@ -304,16 +304,17 @@ module Antlr4::Runtime
     end
 
     def hash
-      hash_code = MurmurHash.initialize
+      ints = []
       i = 0
       while i < @intervals.length
         interval = @intervals[i]
-        hash_code = MurmurHash.update(hash_code, interval.a)
-        hash_code = MurmurHash.update(hash_code, interval.b)
+        ints <<  interval.a
+        ints <<  interval.b
         i += 1
       end
 
-      hash_code = MurmurHash.finish(hash_code, @intervals.length * 2)
+      hash_code = MurmurHash.hash_ints(ints)
+
       if !@_hash.nil?
         if hash_code == @_hash
           puts 'Same hash_code for IntervalSet'

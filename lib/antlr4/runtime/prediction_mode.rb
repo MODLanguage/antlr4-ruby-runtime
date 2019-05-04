@@ -18,10 +18,7 @@ module Antlr4::Runtime
       include Singleton
 
       def hash(o)
-        hash_code = 7
-        hash_code = MurmurHash.update_int(hash_code, o.state.state_number)
-        hash_code = MurmurHash.update_obj(hash_code, o.context)
-        MurmurHash.finish(hash_code, 2)
+        MurmurHash.hash_int_obj(o.state.state_number, o.context)
       end
 
       def equals(a, b)

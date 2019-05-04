@@ -129,12 +129,8 @@ module Antlr4::Runtime
     def hash
       return @_hash unless @_hash.nil?
 
-      hash_code = 7
-      hash_code = MurmurHash.update_int(hash_code, @state.state_number)
-      hash_code = MurmurHash.update_int(hash_code, @alt)
-      hash_code = MurmurHash.update_obj(hash_code, @context)
-      hash_code = MurmurHash.update_obj(hash_code, @semantic_context)
-      hash_code = MurmurHash.finish(hash_code, 4)
+      hash_code = MurmurHash.hash_int_int_obj_obj(@state.state_number,@alt,@context,@semantic_context)
+
       if !@_hash.nil?
         if hash_code == @_hash
           puts 'Same hash_code for ATNConfig'

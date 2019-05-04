@@ -8,16 +8,7 @@ module Antlr4::Runtime
 
     def initialize(lexer_actions)
       @lexer_actions = lexer_actions
-
-      @hash_code = 7
-      i = 0
-      while i < lexer_actions.length
-        lexer_action = lexer_actions[i]
-        @hash_code = MurmurHash.update_obj(@hash_code, lexer_action)
-        i += 1
-      end
-
-      @hash_code = MurmurHash.finish(@hash_code, lexer_actions.length)
+      @hash_code = MurmurHash.hash_objs(lexer_actions)
     end
 
     def self.append(lexer_action_executor, lexer_action)

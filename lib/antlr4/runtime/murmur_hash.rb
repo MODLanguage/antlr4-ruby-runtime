@@ -3,6 +3,83 @@ module Antlr4::Runtime
     DEFAULT_SEED = 0
     MASK_32 = 0xFFFFFFFF
 
+    def self.hash_int(num)
+      hash_code = 7
+      hash_code = update_int(hash_code, num)
+      finish(hash_code, 0)
+    end
+
+    def self.hash_int_obj(num, obj)
+      hash_code = 7
+      hash_code = update_int(hash_code, num)
+      hash_code = update_obj(hash_code, obj)
+      finish(hash_code, 2)
+    end
+
+    def self.hash_int_int_obj_obj(num1, num2, obj1, obj2)
+      hash_code = 7
+      hash_code = update_int(hash_code, num1)
+      hash_code = update_int(hash_code, num2)
+      hash_code = update_obj(hash_code, obj1)
+      hash_code = update_obj(hash_code, obj2)
+      finish(hash_code, 4)
+    end
+
+    def self.hash_int_int(num1, num2)
+      hash_code = 7
+      hash_code = update_int(hash_code, num1)
+      hash_code = update_int(hash_code, num2)
+      finish(hash_code, 2)
+    end
+
+    def self.hash_objs(objs)
+      hash_code = 7
+
+      i = 0
+      while i < objs.length
+        obj = objs[i]
+        hash_code = update_obj(hash_code, obj)
+        i += 1
+      end
+
+      finish(hash_code, objs.length)
+    end
+
+    def self.hash_ints_objs(nums, objs)
+      hash_code = 7
+
+      i = 0
+      while i < objs.length
+        obj = objs[i]
+        hash_code = update_obj(hash_code, obj)
+        i += 1
+      end
+
+      i = 0
+      while i < nums.length
+        num = nums[i]
+        hash_code = update_int(hash_code, num)
+        i += 1
+      end
+
+      finish(hash_code, 2 * objs.length)
+    end
+
+    def self.hash_ints(nums)
+      hash_code = 7
+
+      i = 0
+      while i < nums.length
+        num = nums[i]
+        hash_code = update_int(hash_code, num)
+        i += 1
+      end
+
+      finish(hash_code, 2 * nums.length)
+    end
+
+    private
+
     def self.update_int(hash, value)
       c1 = 0xCC9E2D51
       c2 = 0x1B873593

@@ -112,7 +112,7 @@ module Antlr4::Runtime
     end
 
     def hash
-      hash_code = 0
+      objs = []
       i = 0
       while i < @buckets.length
         bucket = @buckets[i]
@@ -126,13 +126,14 @@ module Antlr4::Runtime
           e = bucket[j]
           break if e.nil?
 
-          hash_code = MurmurHash.update(hash_code, @comparator.hash(e.key))
+          objs << e.key
           j += 1
         end
         i += 1
       end
 
-      hash_code = MurmurHash.finish(hash_code, size)
+      hash_code = MurmurHash.hash_objs(objs)
+
       if !@_hash.nil?
         if hash_code == @_hash
           puts 'Same hash_code for FlexibleHashMap'

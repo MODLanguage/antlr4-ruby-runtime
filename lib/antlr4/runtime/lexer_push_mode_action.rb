@@ -22,10 +22,8 @@ module Antlr4::Runtime
     def hash
       return @_hash unless @_hash.nil?
 
-      hash_code = 0
-      hash_code = MurmurHash.update_int(hash_code, action_type)
-      hash_code = MurmurHash.update_int(hash_code, mode)
-      hash_code = MurmurHash.finish(hash_code, 2)
+      hash_code = MurmurHash.hash_int_int(action_type, mode)
+
       if !@_hash.nil?
         if hash_code == @_hash
           puts 'Same hash_code for LexerPushModeAction'

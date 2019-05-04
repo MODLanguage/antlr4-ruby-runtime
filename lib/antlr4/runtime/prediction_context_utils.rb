@@ -393,36 +393,15 @@ module Antlr4::Runtime
     def self.calculate_empty_hash_code
       return @_hash unless @_hash.nil?
 
-      hash_code = INITIAL_HASH
-      hash_code = MurmurHash.finish(hash_code, 0)
-      @_hash = hash_code
+      @_hash = MurmurHash.hash_int(INITIAL_HASH)
     end
 
     def self.calculate_hash_code1(parent, return_state)
-      hash_code = INITIAL_HASH
-      hash_code = MurmurHash.update_obj(hash_code, parent)
-      hash_code = MurmurHash.update_int(hash_code, return_state)
-      MurmurHash.finish(hash_code, 2)
+      MurmurHash.hash_int_obj(return_state, parent)
     end
 
     def self.calculate_hash_code2(parents, return_states)
-      hash_code = INITIAL_HASH
-
-      i = 0
-      while i < parents.length
-        parent = parents[i]
-        hash_code = MurmurHash.update_obj(hash_code, parent)
-        i += 1
-      end
-
-      i = 0
-      while i < return_states.length
-        returnState = return_states[i]
-        hash_code = MurmurHash.update_int(hash_code, returnState)
-        i += 1
-      end
-
-      MurmurHash.finish(hash_code, 2 * parents.length)
+      MurmurHash.hash_ints_objs(return_states, parents)
     end
   end
 end
