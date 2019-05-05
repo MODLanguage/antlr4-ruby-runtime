@@ -58,7 +58,7 @@ module Antlr4::Runtime
       existing_tgt_state = super.existing_target_state(prev_d, t)
       unless existing_tgt_state.nil?
         @decisions[@current_decision].SLL_DFATransitions += 1 # count only if we transition over a DFA state
-        if existing_tgt_state == ERROR
+        if existing_tgt_state == @@error
           @decisions[@current_decision].errors.add(ErrorInfo.new(@current_decision, prev_d.configs, @_input, @_start_index, @_sll_stop_index, false))
         end
       end

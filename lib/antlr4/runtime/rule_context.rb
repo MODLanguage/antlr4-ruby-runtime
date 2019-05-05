@@ -29,7 +29,7 @@ module Antlr4::Runtime
     # satisfy the ParseTree / SyntaxTree interface
 
     def source_interval
-      Interval.INVALID
+      Interval.invalid
     end
 
     def rule_context

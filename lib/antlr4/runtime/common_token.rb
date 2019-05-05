@@ -1,7 +1,10 @@
 module Antlr4::Runtime
 
   class CommonToken
-    EMPTY_SOURCE = OpenStruct.new
+
+    class << self
+      @@EMPTY_SOURCE = OpenStruct.new
+    end
 
     attr_accessor :type
     attr_accessor :line
@@ -11,14 +14,15 @@ module Antlr4::Runtime
     attr_accessor :index
     attr_accessor :start
     attr_accessor :stop
+    attr_accessor :_text
 
     def initialize(type = nil)
       @char_position_in_line = -1
       @channel = Token::DEFAULT_CHANNEL
       @index = -1
       @type = type
-      @source = EMPTY_SOURCE
-      @text = nil
+      @source = @@EMPTY_SOURCE
+      @_text = nil
     end
 
     def self.create1(source, type, channel, start, stop)
@@ -36,7 +40,7 @@ module Antlr4::Runtime
 
     def self.create2(type, text)
       result = CommonToken.new(type)
-      result.text = text
+      result._text = text
       result
     end
 
@@ -51,10 +55,10 @@ module Antlr4::Runtime
       result.stop = old_token.stop_index
 
       if old_token.is_a? CommonToken
-        result.text = old_token.text
+        result._text = old_token.text
         result.source = old_token.source
       else
-        result.text = old_token.text
+        result._text = old_token.text
         result.source = OpenStruct.new
         result.source.a = old_token.token_source
         result.source.b = old_token.input_stream
@@ -67,7 +71,7 @@ module Antlr4::Runtime
     end
 
     def text
-      return @text unless @text.nil?
+      return @_text unless @_text.nil?
 
       input = input_stream
       return nil if input.nil?
@@ -83,7 +87,7 @@ module Antlr4::Runtime
     def to_s_recog(r = nil)
       channel_str = ''
       channel_str = ',channel=' + @channel.to_s if @channel > 0
-      txt = text
+      txt = @_text
       if !txt.nil?
         txt = txt.sub("\n", '\\n')
         txt = txt.sub("\r", '\\r')
@@ -104,7 +108,7 @@ module Antlr4::Runtime
     def to_s_old
       channel_str = ''
       channel_str = ',channel=' + @channel.to_s if @channel > 0
-      txt = text
+      txt = @_text
       if !txt.nil?
         txt = txt.sub("\n", '\\n')
         txt = txt.sub("\r", '\\r')

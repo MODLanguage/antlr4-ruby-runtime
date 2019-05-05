@@ -2,7 +2,11 @@ module Antlr4::Runtime
 
   class BlockEndState < ATNState
     attr_accessor :start_state
-    @start_state = nil
+
+    def initialize
+      super
+      @start_state = nil
+    end
 
     def state_type
       BLOCK_END

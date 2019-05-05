@@ -2,28 +2,29 @@ module Antlr4::Runtime
   class Interval
     INTERVAL_POOL_MAX_VALUE = 1000
 
-    @@cache = []
 
     attr_accessor :a
     attr_accessor :b
-
-    class << self
-      attr_accessor :creates
-      attr_accessor :misses
-      attr_accessor :hits
-      attr_accessor :outOfRange
-    end
-    @@creates = 0
-    @@misses = 0
-    @@hits = 0
-    @@outOfRange = 0
 
     def initialize(a, b)
       @a = a
       @b = b
     end
 
-    INVALID = Interval.new(-1, -2)
+    class << self
+      attr_accessor :creates
+      attr_accessor :misses
+      attr_accessor :hits
+      attr_accessor :outOfRange
+      attr_accessor :invalid
+
+      @@cache = []
+      @@creates = 0
+      @@misses = 0
+      @@hits = 0
+      @@outOfRange = 0
+      @@invalid = Interval.new(-1, -2)
+    end
 
     def self.of(a, b)
       return Interval.new(a, b) if a != b || a < 0 || a > INTERVAL_POOL_MAX_VALUE
@@ -33,9 +34,9 @@ module Antlr4::Runtime
     end
 
     def length
-      return 0 if b < a
+      return 0 if @b < @a
 
-      b - a + 1
+      @b - @a + 1
     end
 
     def ==(o)
@@ -104,7 +105,7 @@ module Antlr4::Runtime
     end
 
     def to_s
-      a.to_s + '..' + b.to_s
+      @a.to_s + '..' + @b.to_s
     end
   end
 end

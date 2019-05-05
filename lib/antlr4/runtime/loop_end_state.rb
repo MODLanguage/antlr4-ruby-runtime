@@ -2,7 +2,11 @@ module Antlr4::Runtime
 
   class LoopEndState < ATNState
     attr_accessor :loopback_state
-    @loopback_state = nil
+
+    def initialize
+      super
+      @loopback_state = nil
+    end
 
     def state_type
       LOOP_END

@@ -16,12 +16,12 @@ module Antlr4::Runtime
     PLUS_LOOP_BACK = 11
     LOOP_END = 12
 
-    @@serialization_names = %w[INVALID BASIC RULE_START BLOCK_START PLUS_BLOCK_START STAR_BLOCK_START TOKEN_START RULE_STOP BLOCK_END STAR_LOOP_BACK STAR_LOOP_ENTRY PLUS_LOOP_BACK LOOP_END]
-
-    @@invalid_state_number = -1
 
     class << self
       attr_accessor :invalid_state_number
+      @@serialization_names = %w[INVALID BASIC RULE_START BLOCK_START PLUS_BLOCK_START STAR_BLOCK_START TOKEN_START RULE_STOP BLOCK_END STAR_LOOP_BACK STAR_LOOP_ENTRY PLUS_LOOP_BACK LOOP_END]
+
+      @@invalid_state_number = -1
     end
 
     attr_accessor :next_token_within_rule

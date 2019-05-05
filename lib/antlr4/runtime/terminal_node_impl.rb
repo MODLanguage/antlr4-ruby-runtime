@@ -19,7 +19,7 @@ module Antlr4::Runtime
     end
 
     def source_interval
-      return Interval.INVALID if @symbol.nil?
+      return Interval.invalid if @symbol.nil?
 
       token_index = @symbol.token_index
       Interval.new(token_index, token_index)

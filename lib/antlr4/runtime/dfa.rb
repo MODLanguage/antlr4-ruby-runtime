@@ -8,25 +8,25 @@ module Antlr4::Runtime
     attr_accessor :s0
     attr_reader :decision
     attr_reader :atn_start_state
+    attr_reader :precedence_dfa
 
     def initialize(atn_start_state, decision = 0)
       @atn_start_state = atn_start_state
       @decision = decision
       @states = {}
 
-      precedence_dfa = false
+      @precedence_dfa = false
       if atn_start_state.is_a? StarLoopEntryState
         if atn_start_state.is_precedence_pecision
-          precedence_dfa = true
+          @precedence_dfa = true
           precedence_state = DFAState.new(ATNConfigSet.new)
           precedence_state.edges = []
           precedence_state.is_accept_state = false
-          precedence_state.requiresFullContext = false
+          precedence_state.requires_full_context = false
           @s0 = precedence_state
         end
       end
 
-      @precedence_dfa = precedence_dfa
     end
 
     def precedence_dfa?
@@ -34,7 +34,7 @@ module Antlr4::Runtime
     end
 
     def precedence_start_state(precedence)
-      unless precedence_dfa?
+      unless @precedence_dfa
         raise IllegalStateException, 'Only precedence DFAs may contain a precedence start state.'
       end
 
@@ -45,7 +45,7 @@ module Antlr4::Runtime
     end
 
     def precedence_start_state2(precedence, start_state)
-      unless precedence_dfa?
+      unless @precedence_dfa
         raise IllegalStateException, 'Only precedence DFAs may contain a precedence start state.'
       end
 
@@ -55,7 +55,7 @@ module Antlr4::Runtime
     end
 
     def precedence_dfa(precedence_dfa)
-      if precedence_dfa != precedence_dfa?
+      if precedence_dfa != @precedence_dfa
         raise UnsupportedOperationException, 'The precedence_dfa field cannot change after a DFA is constructed.'
       end
     end

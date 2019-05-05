@@ -9,10 +9,11 @@ module Antlr4::Runtime
     MIN_DFA_EDGE = 0
     MAX_DFA_EDGE = 127 # forces unicode to stay in ATN
 
-    EMPTY = EmptyPredictionContext.new(Integer::MAX)
 
     class << self
       attr_reader :debug
+      attr_reader :empty
+      @@empty = EmptyPredictionContext.new(Integer::MAX)
     end
 
     class SimState
@@ -147,7 +148,7 @@ module Antlr4::Runtime
         target = existing_target_state(s, t)
         target = compute_target_state(input, s, t) if target.nil?
 
-        break if target == ERROR
+        break if target == @@error
 
         # If this is a consumable input element, make sure to consume before
         # capturing the accept state so the input index, line, and char
@@ -189,11 +190,11 @@ module Antlr4::Runtime
         unless reach.has_semantic_context
           # we got nowhere on t, don't throw out this knowledge it'd
           # cause a failover from DFA later.
-          add_dfa_edge_dfastate_dfastate(s, t, ERROR)
+          add_dfa_edge_dfastate_dfastate(s, t, @@error)
         end
 
         # stop when we can't match any more char
-        return ERROR
+        return @@error
       end
 
       # Add an edge from s to target DFA found/created for reach
@@ -277,7 +278,7 @@ module Antlr4::Runtime
     end
 
     def compute_start_state(input, p)
-      initial_context = EMPTY
+      initial_context = @@empty
       configs = ATNConfigSet.new
       i = 0
       while i < p.number_of_transitions

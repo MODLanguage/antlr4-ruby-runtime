@@ -9,9 +9,12 @@ module Antlr4::Runtime
 
     attr_accessor :atn
 
-    ERROR = DFAState.new
-    ERROR.initialize_configs(ATNConfigSet.new)
-    ERROR.state_number = Integer::MAX
+    class << self
+      attr_accessor :error
+      @@error = DFAState.new
+      @@error.initialize_configs(ATNConfigSet.new)
+      @@error.state_number = Integer::MAX
+    end
 
     def initialize(atn, shared_context_cache)
       @atn = atn

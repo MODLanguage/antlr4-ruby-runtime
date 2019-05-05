@@ -2,10 +2,13 @@ module Antlr4::Runtime
 
   class StarLoopEntryState < DecisionState
     attr_accessor :loopback_state
-    @loopback_state = nil
-
     attr_accessor :is_precedence_pecision
-    @is_precedence_pecision = false
+
+    def initialize
+      super
+      @loopback_state = nil
+      @is_precedence_pecision = false
+    end
 
     def state_type
       STAR_LOOP_ENTRY

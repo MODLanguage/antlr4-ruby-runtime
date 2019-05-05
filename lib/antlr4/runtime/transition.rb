@@ -11,20 +11,23 @@ module Antlr4::Runtime
     WILDCARD = 9
     PRECEDENCE = 10
 
-    @@serialization_names = %w[INVALID EPSILON RANGE RULE PREDICATE ATOM ACTION SET NOT_SET WILDCARD PRECEDENCE]
+    class << self
 
-    @@serialization_types = {}
+      @@serialization_names = %w[INVALID EPSILON RANGE RULE PREDICATE ATOM ACTION SET NOT_SET WILDCARD PRECEDENCE]
 
-    @@serialization_types[:EpsilonTransition] = EPSILON
-    @@serialization_types[:RangeTransition] = RANGE
-    @@serialization_types[:RuleTransition] = RULE
-    @@serialization_types[:PredicateTransition] = PREDICATE
-    @@serialization_types[:AtomTransition] = ATOM
-    @@serialization_types[:ActionTransition] = ACTION
-    @@serialization_types[:SetTransition] = SET
-    @@serialization_types[:NotSetTransition] = NOT_SET
-    @@serialization_types[:WildcardTransition] = WILDCARD
-    @@serialization_types[:PrecedencePredicateTransition] = PRECEDENCE
+      @@serialization_types = {}
+
+      @@serialization_types[:EpsilonTransition] = EPSILON
+      @@serialization_types[:RangeTransition] = RANGE
+      @@serialization_types[:RuleTransition] = RULE
+      @@serialization_types[:PredicateTransition] = PREDICATE
+      @@serialization_types[:AtomTransition] = ATOM
+      @@serialization_types[:ActionTransition] = ACTION
+      @@serialization_types[:SetTransition] = SET
+      @@serialization_types[:NotSetTransition] = NOT_SET
+      @@serialization_types[:WildcardTransition] = WILDCARD
+      @@serialization_types[:PrecedencePredicateTransition] = PRECEDENCE
+    end
 
     attr_accessor :target
 

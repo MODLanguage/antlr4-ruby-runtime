@@ -109,7 +109,7 @@ module Antlr4::Runtime
         d = existing_target_state(previous_d, t)
         d = compute_target_state(dfa, previous_d, t) if d.nil?
 
-        if d == ERROR
+        if d == @@error
           # if any configs in previous dipped into outer context, that
           # means that input up to t actually finished entry rule
           # at least for SLL decision. Full LL doesn' t dip into outer
@@ -202,7 +202,7 @@ module Antlr4::Runtime
 
     def existing_target_state(prev_d, t)
       edges = prev_d.edges
-      return nil if edges.nil? || t + 1 < 0 || t + 1 >= edges.length
+      return nil if edges.nil? || (t + 1) < 0 || (t + 1) >= edges.length
 
       edges[t + 1]
     end
@@ -210,8 +210,8 @@ module Antlr4::Runtime
     def compute_target_state(dfa, prev_d, t)
       reach = compute_reach_set(prev_d.configs, t, false)
       if reach.nil?
-        add_dfa_edge(dfa, prev_d, t, ERROR)
-        return ERROR
+        add_dfa_edge(dfa, prev_d, t, @@error)
+        return @@error
       end
 
       # create new target state we'll add to DFA after it's complete
@@ -250,6 +250,7 @@ module Antlr4::Runtime
 
       # all adds to dfa are done after we've created full D state
       d = add_dfa_edge(dfa, prev_d, t, d)
+      d
     end
 
     def predicate_dfa_state(dfa_state, decision_state) # We need to test all predicates, even in DFA states that
@@ -462,21 +463,16 @@ module Antlr4::Runtime
           next
         end
 
-        unless look_to_end_of_rule && config.state.only_has_epsilon_transitions
-          i += 1
-          next
+        if look_to_end_of_rule && config.state.only_has_epsilon_transitions
+          next_tokens = atn.next_tokens(config.state)
+          if next_tokens.include?(Token::EPSILON)
+            end_of_rule_state = atn.rule_to_stop_state[config.state.rule_index]
+            atncfg = ATNConfig.new
+            atncfg.atn_config3(config, end_of_rule_state)
+            result.add(atncfg, @merge_cache)
+          end
         end
 
-        next_tokens = atn.next_tokens(config.state)
-        unless next_tokens.include?(Token::EPSILON)
-          i += 1
-          next
-        end
-
-        end_of_rule_state = atn.rule_to_stop_state[config.state.rule_index]
-        atncfg = ATNConfig.new
-        atncfg.atn_config3(config, end_of_rule_state)
-        result.add(atncfg, @merge_cache)
         i += 1
       end
 
@@ -631,8 +627,7 @@ module Antlr4::Runtime
       while i < configs.configs.length
         c = configs.configs[i]
         depth = c.outer_context_depth
-        class_name = c.state.class.name
-        if depth > 0 || (class_name == 'Antlr4::Runtime::RuleStopState' && c.context.empty_path?)
+        if depth > 0 || (c.state.is_a?(Antlr4::Runtime::RuleStopState) && c.context.empty_path?)
           alts.add(c.alt)
         end
         i += 1
@@ -784,13 +779,6 @@ module Antlr4::Runtime
         continue_collecting = !(t.is_a? ActionTransition) && collect_predicates
         c = epsilon_target(config, t, continue_collecting, depth == 0, full_ctx, treat_eof_as_epsilon)
         unless c.nil?
-          added = closure_busy.add?(c)
-
-          unless added
-            i += 1
-            next
-          end
-
           new_depth = depth
           if config.state.is_a? RuleStopState
             # target fell off end of rule mark resulting c as having dipped into outer context
@@ -808,12 +796,26 @@ module Antlr4::Runtime
 
             c.reaches_into_outer_context += 1
 
+            added = closure_busy.add?(c)
+            unless added
+              i += 1
+              next
+            end
+
             configs.dips_into_outer_context = true # TODO: can remove? only care when we add to set per middle of this method
             new_depth -= 1
             puts('dips into outer ctx: ' << c.to_s) if @debug
-          elsif t.is_a? RuleTransition
-            # latch when new_depth goes negative - once we step out of the entry context we can't return
-            new_depth += 1 if new_depth >= 0
+          else
+            added = closure_busy.add?(c)
+            if !t.epsilon? && !added
+              i += 1
+              next
+            end
+
+            if t.is_a? RuleTransition
+              # latch when new_depth goes negative - once we step out of the entry context we can't return
+              new_depth += 1 if new_depth >= 0
+            end
           end
 
           closure_checking_stop_state(c, configs, closure_busy, continue_collecting, full_ctx, new_depth, treat_eof_as_epsilon)
@@ -1120,7 +1122,7 @@ module Antlr4::Runtime
     end
 
     def add_dfa_state(dfa, d)
-      return d if d == ERROR
+      return d if d == @@error
 
       existing = dfa.states[d]
       return existing unless existing.nil?

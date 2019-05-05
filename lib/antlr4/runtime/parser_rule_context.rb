@@ -24,7 +24,7 @@ module Antlr4::Runtime
         i = 0
         while i < ctx.children.length
           child = ctx.children[i]
-          addChild(child) if child.is_a ErrorNode
+          add_child_terminal_node(child) if child.is_a? ErrorNode
           i += 1
         end
       end
@@ -169,7 +169,7 @@ module Antlr4::Runtime
     end
 
     def source_interval
-      return Interval.INVALID if @start.nil?
+      return Interval.invalid if @start.nil?
       if @stop.nil? || @stop.token_index < @start.token_index
         return Interval.of(@start.token_index, @start.token_index - 1) # empty
       end
