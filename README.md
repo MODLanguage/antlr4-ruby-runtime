@@ -2,6 +2,27 @@
 
 This gem adds support for the ANTLR4 runtime for Ruby lexers and parsers generated from the Ruby langauge 
 target available at https://github.com/twalmsley/antlr4/tree/ruby_dev
+## Generate Your Ruby ANTLR4 Grammar
+
+In a clean directory:
+
+```
+$ git clone git@github.com:twalmsley/antlr4.git
+$ cd antlr4
+$ git checkout ruby_dev
+$ export MAVEN_OPTS="-Xmx1G"
+$ mvn clean
+$ mvn -DskipTests install
+$ cd <my-grammar-directory>
+$ java -jar ~/.m2/repository/org/antlr/antlr4/4.7.3-SNAPSHOT/antlr4-4.7.3-SNAPSHOT-complete.jar \
+   -o <output_dir_full_path> \
+   [-listener] \
+   [-visitor] \
+   [-package MYGrammar] \
+   -Dlanguage=Ruby \
+   MYGrammarLexer.g4 MYGrammarParser.g4
+
+```
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -25,25 +46,22 @@ Or clone the repository and build and install it yourself as:
 ## Usage
 
 ```ruby
-require 'modl/parser/MODLParserListener'
-require 'modl/parser/MODLParserVisitor'
-require 'modl/parser/MODLLexer'
-require 'modl/parser/MODLParser'
-require 'modl/parser/Parser'
-require 'modl/parser/class_processor'
-require 'json'
+require './MYGrammarParserListener'
+require './MYGrammarParserBaseListener'
+require './MYGrammarParserVisitor'
+require './MYGrammarLexer'
+require './MYGrammarParser'
 
-module Modl::Parser
-  class Interpreter
-    def self.interpret(str)
-      parsed = Modl::Parser::Parser.parse str
-      interpreted = parsed.extract_json
-      ClassProcessor.instance.process(parsed.global, interpreted)
-      return interpreted if interpreted.is_a? String
-      JSON.generate interpreted
-    end
-  end
-end
+str = 'a=b'
+lexer = MYGrammar::MYGrammarLexer.new(Antlr4::Runtime::CharStreams.from_string(str, 'String'))
+lexer.remove_error_listeners
+
+tokens = Antlr4::Runtime::CommonTokenStream.new(lexer)
+
+parser = MYGrammar::MYGrammarParser.new(tokens)
+
+parsed = MYGrammar::MYGrammarParserBaseListener.new
+parser.my_grammar_entry_rule.enter_rule(parsed)
 ```
 
 ## Development
