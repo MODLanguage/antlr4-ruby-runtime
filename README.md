@@ -16,9 +16,9 @@ $ mvn -DskipTests install
 $ cd <my-grammar-directory>
 $ java -jar ~/.m2/repository/org/antlr/antlr4/4.7.3-SNAPSHOT/antlr4-4.7.3-SNAPSHOT-complete.jar \
    -o <output_dir_full_path> \
-   [-listener] \
-   [-visitor] \
-   [-package MYGrammar] \
+   -listener \
+   -visitor \
+   -package MYGrammar \
    -Dlanguage=Ruby \
    MYGrammarLexer.g4 MYGrammarParser.g4
 
