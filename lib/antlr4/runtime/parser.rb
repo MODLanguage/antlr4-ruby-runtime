@@ -1,8 +1,3 @@
-require 'antlr4/runtime/parse_tree_listener'
-require 'antlr4/runtime/default_error_strategy'
-require 'antlr4/runtime/terminal_node_impl'
-require 'antlr4/runtime/error_node_impl'
-
 module Antlr4::Runtime
 
   class Parser < Recognizer

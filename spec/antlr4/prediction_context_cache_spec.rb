@@ -1,4 +1,4 @@
-require 'antlr4/runtime/prediction_context_cache'
+require 'spec_helper'
 
 RSpec.describe Antlr4::Runtime do
 

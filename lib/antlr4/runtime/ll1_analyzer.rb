@@ -1,9 +1,3 @@
-require 'antlr4/runtime/abstract_predicate_transition'
-require 'antlr4/runtime/wildcard_transition'
-require 'antlr4/runtime/not_set_transition'
-require 'antlr4/runtime/rule_transition'
-require 'antlr4/runtime/rule_stop_state'
-
 module Antlr4::Runtime
 
   class LL1Analyzer

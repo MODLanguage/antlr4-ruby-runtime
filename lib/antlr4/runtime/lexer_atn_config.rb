@@ -1,9 +1,16 @@
-require 'antlr4/runtime/atn_config'
-require 'antlr4/runtime/semantic_context'
-
 module Antlr4::Runtime
 
   class LexerATNConfig < ATNConfig
+    class << self
+      def create_from_config(*args)
+        new.tap { |atn| atn.lexer_atn_config3(*args) }
+      end
+
+      def create_from_config2(*args)
+        new.tap { |atn| atn.lexer_atn_config5(*args) }
+      end
+    end
+
     attr_accessor :passed_through_non_greedy_decision
     attr_accessor :lexer_action_executor
 

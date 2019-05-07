@@ -1,4 +1,4 @@
-require 'antlr4/runtime/array_2d_hash_set'
+require 'spec_helper'
 
 RSpec.describe Antlr4::Runtime do
 

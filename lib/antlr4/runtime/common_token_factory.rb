@@ -1,5 +1,3 @@
-require 'antlr4/runtime/common_token'
-
 module Antlr4::Runtime
 
   class CommonTokenFactory

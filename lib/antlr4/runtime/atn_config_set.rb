@@ -1,6 +1,3 @@
-require 'antlr4/runtime/array_2d_hash_set'
-require 'antlr4/runtime/atn'
-
 module Antlr4::Runtime
 
   class ATNConfigSet

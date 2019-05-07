@@ -1,5 +1,3 @@
-require 'antlr4/runtime/antlr_error_listener'
-
 module Antlr4::Runtime
 
   class BaseErrorListener < ANTLRErrorListener

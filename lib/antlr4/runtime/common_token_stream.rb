@@ -1,5 +1,3 @@
-require 'antlr4/runtime/buffered_token_stream'
-
 module Antlr4::Runtime
 
   class CommonTokenStream < BufferedTokenStream
