@@ -1,7 +1,3 @@
-require 'antlr4/runtime/antlr_error_strategy'
-require 'antlr4/runtime/input_mismatch_exception'
-require 'antlr4/runtime/no_viable_alt_exception'
-
 module Antlr4::Runtime
 
   class DefaultErrorStrategy < ANTLRErrorStrategy
@@ -115,7 +111,7 @@ module Antlr4::Runtime
         #      System.err.println("at loop back: "+s.getClass().getSimpleName())
         report_unwanted_token(recognizer)
         expecting = recognizer.expected_tokens
-        what_follows_loop_iteration_or_rule = expecting.or(error_recovery_set(recognizer))
+        what_follows_loop_iteration_or_rule = expecting || error_recovery_set(recognizer)
         consume_until(recognizer, what_follows_loop_iteration_or_rule)
 
       else # do nothing if we can't identify the exact kind of ATN state end

@@ -1,5 +1,3 @@
-require 'antlr4/runtime/ll1_analyzer'
-
 module Antlr4::Runtime
 
   class IllegalArgumentException < RuntimeError

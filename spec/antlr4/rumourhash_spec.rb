@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'rumourhash/rumourhash'
 
 include RumourHash

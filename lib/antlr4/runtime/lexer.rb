@@ -1,8 +1,3 @@
-require 'antlr4/runtime/recognizer'
-require 'antlr4/runtime/token'
-require 'antlr4/runtime/common_token_factory'
-require 'antlr4/runtime/lexer_no_viable_alt_exception'
-
 module Antlr4::Runtime
 
   class Lexer < Recognizer

@@ -1,7 +1,7 @@
 module Antlr4::Runtime
 
   class LexerCustomAction < LexerAction
-    attr_reader :ruleIndex
+    attr_reader :rule_index
     attr_reader :action_index
 
     def initialize(rule_index, action_index)

@@ -1,5 +1,3 @@
-require 'antlr4/runtime/atn_state'
-
 module Antlr4::Runtime
 
   class DecisionState < ATNState

@@ -1,5 +1,3 @@
-require 'antlr4/runtime/recognition_exception'
-
 module Antlr4::Runtime
 
   class InputMismatchException < RecognitionException

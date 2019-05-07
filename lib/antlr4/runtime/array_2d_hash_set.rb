@@ -1,6 +1,3 @@
-require 'antlr4/runtime/object_equality_comparator'
-require 'antlr4/runtime/murmur_hash'
-
 module Antlr4::Runtime
 
   class Array2DHashSet

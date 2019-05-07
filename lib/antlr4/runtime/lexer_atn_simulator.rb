@@ -1,8 +1,3 @@
-require 'antlr4/runtime/atn_simulator'
-require 'antlr4/runtime/lexer_atn_config'
-require 'antlr4/runtime/ordered_atn_config_set'
-require 'antlr4/runtime/lexer_action_executor'
-
 module Antlr4::Runtime
 
   class LexerATNSimulator < ATNSimulator
@@ -498,7 +493,7 @@ module Antlr4::Runtime
     end
 
     def text(input) # index is first lookahead char, don' t include.
-      input.text(Interval.of(start_index, input.index - 1))
+      input.text(Interval.of(@start_index, input.index - 1))
     end
 
     def consume(input)

@@ -10,6 +10,8 @@
 .idea
 **/*.bundle
 **/*.o
+Gemfile.lock
+.ruby-version
 
 # rspec failure tracking
 .rspec_status
