@@ -30,6 +30,8 @@ module Antlr4::Runtime
 
       if el1.is_a? Interval
         add_interval(el1)
+      elsif el1.is_a? IntervalSet
+        add_all(el1)
       elsif el2.nil?
         add_interval(Interval.of(el1, el1))
       else
@@ -76,7 +78,7 @@ module Antlr4::Runtime
       @intervals << addition
     end
 
-    def or_sets(sets)
+    def self.or_sets(sets)
       r = IntervalSet.new
       i = 0
       while i < sets.length
@@ -99,13 +101,6 @@ module Antlr4::Runtime
           add(interval.a, interval.b)
           i += 1
         end
-      else
-        i = 0
-        list = set.to_list
-        while i < list.length
-          add(list[i])
-          i += 1
-        end
       end
 
       self
@@ -115,30 +110,21 @@ module Antlr4::Runtime
       complement_interval_set(IntervalSet.of(min_element, max_element))
     end
 
-    def complement_interval_set(vocabulary)
-      if vocabulary.nil? || vocabulary.is_nil
+    def complement_interval_set(intervalSet)
+      if intervalSet.nil? || intervalSet.is_nil
         return nil # nothing in common with nil set
       end
 
-      vocabularyIS = nil
-      if vocabulary.is_a? IntervalSet
-        vocabularyIS = vocabulary
-      else
-        vocabularyIS = IntervalSet.new
-        vocabularyIS.add_all(vocabulary)
+      if intervalSet.is_a? IntervalSet
+        intervalSet.subtract(self)
       end
 
-      vocabularyIS.subtract(self)
     end
 
     def subtract(a)
       return IntervalSet.new self if a.nil? || a.is_nil
 
-      return subtract_interval_sets(self, a) if a.is_a? IntervalSet
-
-      other = IntervalSet.new
-      other.add_all(a)
-      subtract_interval_sets(self, other)
+      return subtract_interval_sets(self, a)
     end
 
     def subtract_interval_sets(left, right)
@@ -176,23 +162,23 @@ module Antlr4::Runtime
         if !before_current.nil?
           if !after_current.nil?
             # split the current interval into two
-            result.intervals.set(result_i, before_current)
-            result.intervals.add(result_i + 1, after_current)
+            result.intervals[result_i] = before_current
+            result.intervals[result_i + 1] = after_current
             result_i += 1
             right_i += 1
             next
           else # replace the current interval
-            result.intervals.set(result_i, before_current)
+            result.intervals[result_i] = before_current
             result_i += 1
             next
           end
         else
           if !after_current.nil?
-            result.intervals.set(result_i, after_current)
+            result.intervals[result_i] = after_current
             right_i += 1
             next
           else
-            result.intervals.remove(result_i)
+            result.intervals.delete_at(result_i)
             next
           end
         end
@@ -201,7 +187,7 @@ module Antlr4::Runtime
       result
     end
 
-    def or_list(a)
+    def or(a)
       o = IntervalSet.new
       o.add_all(self)
       o.add_all(a)
@@ -308,8 +294,8 @@ module Antlr4::Runtime
       i = 0
       while i < @intervals.length
         interval = @intervals[i]
-        ints <<  interval.a
-        ints <<  interval.b
+        ints << interval.a
+        ints << interval.b
         i += 1
       end
 
@@ -365,10 +351,6 @@ module Antlr4::Runtime
       buf
     end
 
-    # def toString(tokenNames)
-    #  return toString(VocabularyImpl.fromTokenNames(tokenNames))
-    # end
-
     def to_string_from_vocabulary(vocabulary)
       buf = ''
       return 'end' if @intervals.nil? || @intervals.empty?
@@ -423,7 +405,7 @@ module Antlr4::Runtime
     end
 
     def to_integer_list
-      values = IntegerList.new
+      values = []
       n = @intervals.length
       i = 0
       while i < n
@@ -432,7 +414,7 @@ module Antlr4::Runtime
         b = interval.b
         v = a
         while v <= b
-          values.add(v)
+          values.push(v)
           v += 1
         end
         i += 1
@@ -459,26 +441,6 @@ module Antlr4::Runtime
         k += 1
       end
       s
-    end
-
-    def get(i)
-      n = @intervals.length
-      index = 0
-      j = 0
-      while j < n
-        interval = @intervals[j]
-        a = interval.a
-        b = interval.b
-        v = a
-        while v <= b
-          return v if index == i
-
-          index += 1
-          v += 1
-        end
-        j += 1
-      end
-      -1
     end
 
     def to_a
@@ -515,7 +477,7 @@ module Antlr4::Runtime
         end
         # if in middle a..x..b, split interval
         if el > a && el < b # found in this interval
-          int oldb = interval.b
+          oldb = interval.b
           interval.b = el - 1 # [a..x-1]
           add(el + 1, oldb) # add [x+1..b]
         end

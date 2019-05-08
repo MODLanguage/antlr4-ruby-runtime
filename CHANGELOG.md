@@ -1,3 +1,7 @@
+0.2.2
+===
+- Added a unit test for IntervalSet, fixed some bugs, removed some unused code, renamed `or_sets` to `or`.
+
 0.2.1
 ===
 - Call IntervalSet#or_sets (instead of #or or ||) to better match the Java version.
