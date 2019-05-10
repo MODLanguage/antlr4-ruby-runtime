@@ -46,9 +46,10 @@ module Antlr4::Runtime
     end
 
     def hash
-      hash = 23
-      hash = hash * 31 + @a
-      hash * 31 + @b
+      return @_hash unless @_hash.nil?
+      @_hash = 23
+      @_hash = @_hash * 31 + @a
+      @_hash = @_hash * 31 + @b
     end
 
     def starts_before_disjoint(other)

@@ -89,8 +89,6 @@ module Antlr4::Runtime
     end
 
     class Operator < SemanticContext
-      def operands
-      end
     end
 
     class AND < Operator

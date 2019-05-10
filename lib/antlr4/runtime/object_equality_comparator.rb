@@ -9,10 +9,10 @@ module Antlr4::Runtime
       obj.hash
     end
 
-    def equals(a, b)
-      return b.nil? if a.nil?
+    def compare(a, b)
+      return 1 if a.nil? || b.nil?
 
-      a.eql?(b)
+      a <=> b
     end
   end
 end

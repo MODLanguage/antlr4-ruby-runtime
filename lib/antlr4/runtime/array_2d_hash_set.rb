@@ -5,6 +5,8 @@ module Antlr4::Runtime
     INITIAL_BUCKET_CAPACITY = 8
     LOAD_FACTOR = 0.75
 
+    attr_reader :buckets
+
     def initialize(comparator = nil, initial_capacity = INITIAL_CAPACITY, initial_bucket_capacity = INITIAL_BUCKET_CAPACITY)
       comparator.nil? ? @comparator = ObjectEqualityComparator.instance : @comparator = comparator
 
@@ -41,7 +43,7 @@ module Antlr4::Runtime
           @n_elements += 1
           return o
         end
-        if @comparator.equals(existing, o)
+        if @comparator.compare(existing, o).zero?
           return existing # found existing, quit
         end
 
@@ -70,15 +72,15 @@ module Antlr4::Runtime
         if e.nil?
           return nil # empty slot not there
         end
-        return e if @comparator.equals(e, o)
+        return e if @comparator.compare(e, o).zero?
         i += 1
       end
       nil
     end
 
     def get_bucket(o)
-      hash = @comparator.hash(o)
-      hash & (@buckets.length - 1) # assumes len is power of 2
+      h = @comparator.hash(o)
+      h & (@buckets.length - 1) # assumes len is power of 2
     end
 
     def hash
@@ -102,26 +104,16 @@ module Antlr4::Runtime
         i += 1
       end
 
-      hash_code = MurmurHash.hash_objs(objs)
-
-      if !@_hash.nil?
-        if hash_code == @_hash
-          puts 'Same hash_code for Array2DHashSet'
-        else
-          puts 'Different hash_code for Array2DHashSet'
-        end
-      end
-      @_hash = hash_code
+      @_hash = MurmurHash.hash_objs(objs)
     end
 
-    def equals(o)
-      return true if o == self
+    def ==(o)
+      return true if o.equal?(self)
       return false unless o.is_a? Array2DHashSet
 
-      other = o
-      return false if other.size != size
+      return false if o.size != size
 
-      contains_all(other)
+      contains_all(o)
     end
 
     def add(t)
@@ -149,12 +141,12 @@ module Antlr4::Runtime
 
     def iterator
       a = to_a
-      a.sort(@comparator) unless @comparator.nil?
+      a.sort! {|a, b| @comparator.compare(a, b)} unless @comparator.nil?
       SetIterator.new(a, self)
     end
 
     def to_a
-      a = create_bucket(size)
+      a = []
       i = 0
       j = 0
       while j < @buckets.length
@@ -167,9 +159,12 @@ module Antlr4::Runtime
         k = 0
         while k < bucket.length
           o = bucket[k]
-          break if o.nil?
+          if o.nil?
+            k += 1
+            next
+          end
 
-          a[i] = o
+          a << o
           i += 1
           k += 1
         end
@@ -200,8 +195,9 @@ module Antlr4::Runtime
           return false
         end
 
-        if @comparator.eql?(e, obj) # found it
+        if @comparator.compare(e, obj).zero? # found it
           bucket[i] = nil
+          @n_elements -= 1
           return true
         end
         i += 1
@@ -210,9 +206,8 @@ module Antlr4::Runtime
       false
     end
 
-    def contains_all(collection)
-      if collection.is_a? Array2DHashSet
-        s = collection
+    def contains_all(s)
+      if s.is_a? Array2DHashSet
         i = 0
         while i < s.buckets.length
           bucket = s.buckets[i]
@@ -232,8 +227,8 @@ module Antlr4::Runtime
         end
       else
         i = 0
-        while i < collection.length
-          o = collection[i]
+        while i < s.length
+          o = s[i]
           return false unless contains_fast(o)
           i += 1
         end
@@ -268,7 +263,7 @@ module Antlr4::Runtime
         while i < bucket.length
           break if bucket[i].nil?
 
-          if c.contains(bucket[i])
+          if c.include?(bucket[i])
             # keep
             bucket[j] = bucket[i] if i != j
 
@@ -317,27 +312,24 @@ module Antlr4::Runtime
       buf = ''
       buf << '{'
       first = true
+      items = to_a
+      items.sort! {|a, b| @comparator.compare(a, b)} unless @comparator.nil?
+
       i = 0
-      while i < @buckets.length
-        bucket = @buckets[i]
-        if bucket.nil?
+      while i < items.length
+        item = items[i]
+        if item.nil?
           i += 1
           next
         end
 
-        j = 0
-        while j < bucket.length
-          o = bucket[j]
-          break if o.nil?
-
-          if first
-            first = false
-          else
-            buf << ', '
-            buf << o.to_s
-          end
-          j += 1
+        if first
+          first = false
+        else
+          buf << ', '
         end
+        buf << item.to_s
+
         i += 1
       end
       buf << '}'
