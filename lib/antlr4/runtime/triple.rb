@@ -17,7 +17,7 @@ module Antlr4::Runtime
         return false unless obj.is_a? Triple
       end
 
-      ObjectEqualityComparator.instance.eql?(a, obj.a) && ObjectEqualityComparator.instance.eql?(b, obj.b) && ObjectEqualityComparator.instance.eql?(c, obj.c)
+      ObjectEqualityComparator.instance.compare(a, obj.a).zero? && ObjectEqualityComparator.instance.compare(b, obj.b).zero? && ObjectEqualityComparator.instance.compare(c, obj.c).zero?
     end
 
     def hash

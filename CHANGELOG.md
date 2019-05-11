@@ -1,6 +1,11 @@
 0.2.2
 ===
 - Added a unit test for IntervalSet, fixed some bugs, removed some unused code, renamed `or_sets` to `or`.
+- Fixed eql? and <=> for ATNConfig
+- Fixed compare method for ATNConfigSet
+- Fixed a ParseATNSimulator problem when checking for values added to closure_busy.
+- Fixed a loop error in PredictionContextUtils
+- Fixed use of ObjectEqualityComparator in Triple.
 
 0.2.1
 ===

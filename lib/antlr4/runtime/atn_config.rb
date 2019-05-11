@@ -119,7 +119,19 @@ module Antlr4::Runtime
         return false
       end
 
-      @state.state_number == other.state.state_number && @alt == other.alt && (@context == other.context || (!@context.nil? && @context.<=>(other.context))) && @semantic_context.<=>(other.semantic_context) && precedence_filter_suppressed? == other.precedence_filter_suppressed?
+      return true if @state.state_number == other.state.state_number && @alt == other.alt && (@context == other.context || (!@context.nil? && @context.<=>(other.context))) && @semantic_context.<=>(other.semantic_context) && precedence_filter_suppressed? == other.precedence_filter_suppressed?
+      false
+    end
+
+    def <=>(other)
+      if self == other
+        return 0
+      elsif other.nil?
+        return 1
+      end
+
+      return 0 if @state.state_number == other.state.state_number && @alt == other.alt && (@context == other.context || (!@context.nil? && @context.<=>(other.context))) && @semantic_context.<=>(other.semantic_context) && precedence_filter_suppressed? == other.precedence_filter_suppressed?
+      -1
     end
 
     def hash

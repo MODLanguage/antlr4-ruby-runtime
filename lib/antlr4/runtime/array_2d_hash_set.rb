@@ -1,8 +1,8 @@
 module Antlr4::Runtime
 
   class Array2DHashSet
-    INITIAL_CAPACITY = 16 # must be power of 2
-    INITIAL_BUCKET_CAPACITY = 8
+    INITIAL_CAPACITY = 32 # must be power of 2
+    INITIAL_BUCKET_CAPACITY = 4
     LOAD_FACTOR = 0.75
 
     attr_reader :buckets
@@ -70,7 +70,8 @@ module Antlr4::Runtime
       while i < bucket.length
         e = bucket[i]
         if e.nil?
-          return nil # empty slot not there
+          i += 1
+          next
         end
         return e if @comparator.compare(e, o).zero?
         i += 1
@@ -96,7 +97,10 @@ module Antlr4::Runtime
         j = 0
         while j < bucket.length
           o = bucket[j]
-          break if o.nil?
+          if o.nil?
+            j += 1
+            next
+          end
 
           objs << o
           j += 1
@@ -191,8 +195,8 @@ module Antlr4::Runtime
       while i < bucket.length
         e = bucket[i]
         if e.nil?
-          # empty slot not there
-          return false
+          i += 1
+          next
         end
 
         if @comparator.compare(e, obj).zero? # found it
@@ -219,7 +223,10 @@ module Antlr4::Runtime
           j = 0
           while j < bucket.length
             o = bucket[j]
-            break if o.nil?
+            if o.nil?
+              j += 1
+              next
+            end
             return false unless contains_fast(o)
             j += 1
           end
@@ -261,7 +268,10 @@ module Antlr4::Runtime
         i = 0
         j = 0
         while i < bucket.length
-          break if bucket[i].nil?
+          if bucket[i].nil?
+            i += 1
+            next
+          end
 
           if c.include?(bucket[i])
             # keep
