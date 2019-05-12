@@ -1,3 +1,7 @@
+0.2.3
+===
+- Fixed a problem displaying error messages when parsing fails.
+
 0.2.2
 ===
 - Added a unit test for IntervalSet, fixed some bugs, removed some unused code, renamed `or_sets` to `or`.

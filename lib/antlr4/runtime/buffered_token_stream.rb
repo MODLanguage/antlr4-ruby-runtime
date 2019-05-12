@@ -75,7 +75,7 @@ module Antlr4::Runtime
       i = 0
       while i < n
         t = @token_source.next_token
-        t.setTokenIndex(@tokens.length) if t.is_a? WritableToken
+        t.index = @tokens.length if t.is_a? WritableToken
         @tokens << t
         if t.type == Token::EOF
           @fetched_eof = true
@@ -303,7 +303,7 @@ module Antlr4::Runtime
         break if t.type == Token::EOF
 
         buf << t.text
-        buf << i += 1
+        i += 1
       end
       buf
     end

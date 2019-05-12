@@ -1,6 +1,6 @@
 module Antlr4::Runtime
 
-  class CommonToken
+  class CommonToken < WritableToken
 
     class << self
       @@EMPTY_SOURCE = OpenStruct.new
