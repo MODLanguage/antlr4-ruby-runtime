@@ -792,7 +792,7 @@ module Antlr4::Runtime
 
             c.reaches_into_outer_context += 1
 
-            added = closure_busy.add?(c)
+            added = !closure_busy.add?(c).nil?
             unless added
               i += 1
               next
@@ -802,7 +802,7 @@ module Antlr4::Runtime
             new_depth -= 1
             puts('dips into outer ctx: ' << c.to_s) if @debug
           else
-            added = closure_busy.add?(c)
+            added = !closure_busy.add?(c).nil?
             if !t.epsilon? && !added
               i += 1
               next

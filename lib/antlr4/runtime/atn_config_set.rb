@@ -103,7 +103,7 @@ module Antlr4::Runtime
 
     class AbstractConfigHashSet < Array2DHashSet
       def initialize(comparator)
-        super(comparator, 64, 64)
+        super(comparator, 128, 8)
       end
     end
 
@@ -132,11 +132,10 @@ module Antlr4::Runtime
         o.bucket_hash
       end
 
-      def equals(a, b)
-        return true if a == b
-        return false if a.nil? || b.nil?
-
-        a.state.state_number == b.state.state_number && a.alt == b.alt && a.semantic_context.eql?(b.semantic_context)
+      def compare(a, b)
+        return 1 if a.nil? || b.nil?
+        return 0 if a.state.state_number == b.state.state_number && a.alt == b.alt && a.semantic_context.eql?(b.semantic_context)
+        -1
       end
     end
 

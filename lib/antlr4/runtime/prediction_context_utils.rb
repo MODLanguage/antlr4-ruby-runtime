@@ -329,7 +329,7 @@ module Antlr4::Runtime
       changed = false
       parents = []
       i = 0
-      while i < parents.length
+      while i < context.size
         parent = cached_context(context.get_parent(i), context_cache, visited)
         if changed || parent != context.get_parent(i)
           unless changed
