@@ -303,7 +303,7 @@ module Antlr4::Runtime
         break if t.type == Token::EOF
 
         buf << t.text
-        buf << i += 1
+        i += 1
       end
       buf
     end

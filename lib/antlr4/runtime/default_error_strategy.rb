@@ -111,7 +111,7 @@ module Antlr4::Runtime
         #      System.err.println("at loop back: "+s.getClass().getSimpleName())
         report_unwanted_token(recognizer)
         expecting = recognizer.expected_tokens
-        what_follows_loop_iteration_or_rule = expecting.or_sets([error_recovery_set(recognizer)])
+        what_follows_loop_iteration_or_rule = expecting.or(error_recovery_set(recognizer))
         consume_until(recognizer, what_follows_loop_iteration_or_rule)
 
       else # do nothing if we can't identify the exact kind of ATN state end
