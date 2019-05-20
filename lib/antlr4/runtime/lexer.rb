@@ -55,9 +55,17 @@ module Antlr4::Runtime
       @_factory = CommonTokenFactory.instance
     end
 
+    def token_factory
+      @_factory
+    end
+
+    def token_factory=(factory)
+      @_factory = factory
+    end
+
     def next_token
       if @_input.nil?
-        raise IllegalStateException, 'nextToken requires a non-nil input stream.'
+        raise IllegalStateException, 'next_token requires a non-nil input stream.'
       end
 
       # Mark start location in char stream so unbuffered streams are

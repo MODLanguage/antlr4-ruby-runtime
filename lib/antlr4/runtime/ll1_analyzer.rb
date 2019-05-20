@@ -3,6 +3,8 @@ module Antlr4::Runtime
   class LL1Analyzer
     @@hit_pred = Token::INVALID_TYPE
 
+    attr_reader :atn
+
     def initialize(atn)
       @atn = atn
     end
@@ -29,7 +31,7 @@ module Antlr4::Runtime
       r = IntervalSet.new
       see_thru_preds = true # ignore preds get all lookahead
       look_context = !ctx.nil? ? PredictionContextUtils.from_rule_context(s.atn, ctx) : nil
-      _look(s, stop_state, look_context, r, Set.new, Set.new, see_thru_preds, true)
+      _look(s, stop_state, look_context, r, Set.new, BitSet.new, see_thru_preds, true)
       r
     end
 
@@ -70,7 +72,7 @@ module Antlr4::Runtime
             calledRuleStack.clear(s.rule_index)
             i = 0
             while i < ctx.size
-              return_state = atn.states.get(ctx.get_return_state(i))
+              return_state = atn.states[ctx.get_return_state(i)]
 
               _look(return_state, stopState, ctx.get_parent(i), look, lookBusy, calledRuleStack, seeThruPreds, addEOF)
               i += 1

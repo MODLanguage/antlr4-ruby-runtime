@@ -8,7 +8,7 @@ module Antlr4::Runtime
       @@global_node_count = 0
     end
 
-    attr_accessor :cachedHashCode
+    attr_accessor :cached_hash_code
 
     def initialize(cached_hash_code)
       @id = @@global_node_count

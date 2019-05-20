@@ -19,7 +19,7 @@ module Antlr4::Runtime
     end
 
     def initialize(comparator = nil, initial_capacity = nil, initial_bucket_capacity = nil)
-      comparator = ObjectEqualityComparator.INSTANCE if comparator.nil?
+      comparator = ObjectEqualityComparator.instance if comparator.nil?
 
       initial_capacity = INITIAL_CAPACITY if initial_capacity.nil?
       initial_bucket_capacity = INITIAL_BUCKET_CAPACITY if initial_bucket_capacity.nil?
