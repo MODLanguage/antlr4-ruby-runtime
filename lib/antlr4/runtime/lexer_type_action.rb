@@ -22,7 +22,7 @@ module Antlr4::Runtime
     def hash
       return @_hash unless @_hash.nil?
 
-      hash_code = MurmurHash.hash_int_int(action_type, @type)
+      hash_code = RumourHash.calculate([action_type, @type])
 
       if !@_hash.nil?
         if hash_code == @_hash

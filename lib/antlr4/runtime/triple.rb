@@ -21,7 +21,7 @@ module Antlr4::Runtime
     end
 
     def hash
-      hash_code = MurmurHash.hash_objs([@a, @b, @c])
+      hash_code = RumourHash.hash([@a, @b, @c])
 
       if !@_hash.nil?
         if hash_code == @_hash

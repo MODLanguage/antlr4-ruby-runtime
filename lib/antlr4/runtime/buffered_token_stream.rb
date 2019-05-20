@@ -152,7 +152,7 @@ module Antlr4::Runtime
       @ptr = adjust_seek_index(0)
     end
 
-    def token_source(tokenSource)
+    def token_source=(tokenSource)
       @token_source = tokenSource
       @tokens.clear
       @ptr = -1

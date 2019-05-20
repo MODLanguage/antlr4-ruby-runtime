@@ -26,7 +26,7 @@ module Antlr4::Runtime
       def hash
         return @_hash unless @_hash.nil?
 
-        hash_code = MurmurHash.hash_ints([@rule_index, @pred_index, @is_ctx_dependent ? 1 : 0])
+        hash_code = RumourHash.calculate([@rule_index, @pred_index, @is_ctx_dependent ? 1 : 0])
 
         if !@_hash.nil?
           if hash_code == @_hash
@@ -124,7 +124,7 @@ module Antlr4::Runtime
       end
 
       def hash
-        hash_code = MurmurHash.hash(@opnds, AND.hash)
+        hash_code = RumourHash.calculate(@opnds, AND.hash)
         if !@_hash2.nil?
           if hash_code == @_hash2
             puts 'Same hash_code for SemanticContext_2'
@@ -219,7 +219,7 @@ module Antlr4::Runtime
       end
 
       def hash
-        hash_code = MurmurHash.hash(@opnds, OR.hash)
+        hash_code = MurmurHash.calculate(@opnds, OR.hash)
         if !@_hash3.nil?
           if hash_code == @_hash3
             puts 'Same hash_code for SemanticContext_2'

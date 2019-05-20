@@ -6,7 +6,7 @@ module Antlr4::Runtime
 
     def initialize(lexer_actions)
       @lexer_actions = lexer_actions
-      @hash_code = MurmurHash.hash_objs(lexer_actions)
+      @hash_code = RumourHash.calculate(lexer_actions)
     end
 
     def self.append(lexer_action_executor, lexer_action)

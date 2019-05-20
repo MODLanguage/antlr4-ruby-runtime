@@ -24,7 +24,7 @@ module Antlr4::Runtime
     def hash
       return @_hash unless @_hash.nil?
 
-      hash_code = MurmurHash.hash_ints([action_type, rule_index, action_index])
+      hash_code = RumourHash.calculate([action_type, rule_index, action_index])
 
       if !@_hash.nil?
         if hash_code == @_hash
@@ -33,6 +33,7 @@ module Antlr4::Runtime
           puts 'Different hash_code for LexerCustomAction'
         end
       end
+
       @_hash = hash_code
     end
 

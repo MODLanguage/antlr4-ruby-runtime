@@ -299,7 +299,7 @@ RSpec.describe Antlr4::Runtime do
     set1.add_interval(Antlr4::Runtime::Interval.new(15,19))
 
     expect(set1.hash).not_to be(nil)
-    expect(set1.hash).to eq(3624189328134123641)
+    expect(set1.hash).to eq(1239020189172060483)
   end
 
   it "can convert an IntervalSet top an integer list" do
