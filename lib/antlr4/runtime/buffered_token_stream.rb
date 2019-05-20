@@ -1,3 +1,6 @@
+require 'antlr4/runtime/writable_token'
+require 'antlr4/runtime/token_stream'
+
 module Antlr4::Runtime
 
   class BufferedTokenStream < TokenStream
@@ -75,7 +78,7 @@ module Antlr4::Runtime
       i = 0
       while i < n
         t = @token_source.next_token
-        t.index = @tokens.length if t.is_a? WritableToken
+        t.setTokenIndex(@tokens.length) if t.is_a? WritableToken
         @tokens << t
         if t.type == Token::EOF
           @fetched_eof = true
@@ -152,7 +155,7 @@ module Antlr4::Runtime
       @ptr = adjust_seek_index(0)
     end
 
-    def token_source=(tokenSource)
+    def token_source(tokenSource)
       @token_source = tokenSource
       @tokens.clear
       @ptr = -1
@@ -303,7 +306,7 @@ module Antlr4::Runtime
         break if t.type == Token::EOF
 
         buf << t.text
-        i += 1
+        buf << i += 1
       end
       buf
     end
