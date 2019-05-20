@@ -12,6 +12,7 @@
 **/*.o
 Gemfile.lock
 .ruby-version
+ext/rumourhash/Makefile
 
 # rspec failure tracking
 .rspec_status
