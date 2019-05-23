@@ -1,3 +1,7 @@
+0.2.4
+===
+- Performance improvements and bug fixes from Cameron Dutro.
+
 0.2.3
 ===
 - Fixed a problem displaying error messages when parsing fails.
