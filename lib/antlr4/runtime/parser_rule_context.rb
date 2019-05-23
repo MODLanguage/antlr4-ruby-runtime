@@ -55,7 +55,7 @@ module Antlr4::Runtime
     end
 
     def add_error_node(error_node)
-      error_node.setParent(self)
+      error_node.parent = self
       add_any_child(error_node)
     end
 

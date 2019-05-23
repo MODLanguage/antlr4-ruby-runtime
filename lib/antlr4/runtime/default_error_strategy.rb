@@ -53,7 +53,7 @@ module Antlr4::Runtime
     end
 
     def recover(recognizer, _e)
-      if @last_error_index == recognizer._input.index && !@last_error_states.nil? && @last_error_states.include?(recognizer._state_number)
+      if @last_error_index == recognizer._input.index && !@last_error_states.nil? && @last_error_states.contains(recognizer._state_number)
         # uh oh, another error at same token index and previously-visited
         # state in ATN must be a case where lt(1) is in the recovery
         # token set so nothing got consumed. Consume a single token

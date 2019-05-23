@@ -11,7 +11,7 @@ module Antlr4::Runtime
     attr_accessor :char_position_in_line
     attr_accessor :channel
     attr_accessor :source
-    attr_accessor :index
+    attr_accessor :token_index
     attr_accessor :start
     attr_accessor :stop
     attr_accessor :_text
@@ -19,7 +19,7 @@ module Antlr4::Runtime
     def initialize(type = nil)
       @char_position_in_line = -1
       @channel = Token::DEFAULT_CHANNEL
-      @index = -1
+      @token_index = -1
       @type = type
       @source = @@EMPTY_SOURCE
       @_text = nil
@@ -48,7 +48,7 @@ module Antlr4::Runtime
       result = CommonToken.new(old_token.type)
 
       result.line = old_token.line
-      result.index = old_token.token_index
+      result.token_index = old_token.token_index
       result.char_position_in_line = old_token.char_position_in_line
       result.channel = old_token.channel
       result.start = old_token.start_index
