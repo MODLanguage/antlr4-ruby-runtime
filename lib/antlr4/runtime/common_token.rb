@@ -98,7 +98,7 @@ module Antlr4::Runtime
 
       type_string = type.to_s
       type_string = r.get_vocabulary.display_name(@type) unless r.nil?
-      '[@' << token_index.to_s << ',' << @start.to_s << ':' << @stop.to_s << "='" << txt << "',<" << type_string << '>' << channel_str << ',' << @line.to_s << ':' << char_position_in_line.to_s << ']'
+      '[@' << @token_index.to_s << ',' << @start.to_s << ':' << @stop.to_s << "='" << txt << "',<" << type_string << '>' << channel_str << ',' << @line.to_s << ':' << @char_position_in_line.to_s << ']'
     end
 
     def to_s
@@ -119,7 +119,7 @@ module Antlr4::Runtime
 
       type_string = type.to_s
 
-      '[@' << token_index.to_s << ',' << @start.to_s << ':' << @stop.to_s << "='" << txt << "',<" << type_string << '>' << channel_str << ',' << @line.to_s << ':' << char_position_in_line.to_s << ']'
+      '[@' << @token_index.to_s << ',' << @start.to_s << ':' << @stop.to_s << "='" << txt << "',<" << type_string << '>' << channel_str << ',' << @line.to_s << ':' << @char_position_in_line.to_s << ']'
     end
   end
 end

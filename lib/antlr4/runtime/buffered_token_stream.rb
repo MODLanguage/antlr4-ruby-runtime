@@ -317,7 +317,7 @@ module Antlr4::Runtime
 
     def text4(start, stop)
       if !start.nil? && !stop.nil?
-        return text2(Interval.of(start.index, stop.index))
+        return text2(Interval.of(start.token_index, stop.token_index))
       end
 
       ''

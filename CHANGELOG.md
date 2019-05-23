@@ -1,3 +1,8 @@
+0.2.5
+===
+- Bug fix in buffered_token_stream.rb
+- Bug fix in common_token.rb
+
 0.2.4
 ===
 - Performance improvements and bug fixes from Cameron Dutro.
