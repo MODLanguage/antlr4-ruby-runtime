@@ -13,6 +13,17 @@ module Antlr4::Runtime
       @bits |= (1 << x)
     end
 
+    def clear(idx = nil)
+      # check for zero to avoid trying to take the log2 of it, which
+      # returns -Infinity
+      if !idx || bits == 0
+        @bits = 0
+        return
+      end
+
+      @bits &= 2**Math.log2(bits).ceil - 2**idx - 1
+    end
+
     def get(x)
       (@bits & (1 << x)) > 0 ? true : false
     end

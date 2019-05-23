@@ -171,8 +171,8 @@ module Antlr4::Runtime
       @_input.token_source.token_factory
     end
 
-    def set_token_factory(factory)
-      @_input.token_source.set_token_factory(factory)
+    def token_factory=(factory)
+      @_input.token_source.token_factory = factory
     end
 
     def get_atn_with_bypass_alts
