@@ -290,16 +290,12 @@ module Antlr4::Runtime
     end
 
     def hash
-      ints = []
-      i = 0
-      while i < @intervals.length
-        interval = @intervals[i]
-        ints << interval.a
-        ints << interval.b
-        i += 1
+      ints = @intervals.each_with_object([]) do |interval, ret|
+        ret << interval.a
+        ret << interval.b
       end
 
-      hash_code = MurmurHash.hash_ints(ints)
+      hash_code = RumourHash.calculate(ints)
 
       if !@_hash.nil?
         if hash_code == @_hash

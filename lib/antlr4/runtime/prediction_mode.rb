@@ -15,7 +15,7 @@ module Antlr4::Runtime
       include Singleton
 
       def hash(o)
-        MurmurHash.hash_int_obj(o.state.state_number, o.context)
+        RumourHash.calculate([o.state.state_number, o.context])
       end
 
       def equals(a, b)

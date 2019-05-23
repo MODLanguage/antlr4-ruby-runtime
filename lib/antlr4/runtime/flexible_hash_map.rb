@@ -132,7 +132,7 @@ module Antlr4::Runtime
         i += 1
       end
 
-      hash_code = MurmurHash.hash_objs(objs)
+      hash_code = RumourHash.calculate(objs)
 
       if !@_hash.nil?
         if hash_code == @_hash

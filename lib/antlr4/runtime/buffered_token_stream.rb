@@ -1,3 +1,6 @@
+require 'antlr4/runtime/writable_token'
+require 'antlr4/runtime/token_stream'
+
 module Antlr4::Runtime
 
   class BufferedTokenStream < TokenStream
@@ -303,7 +306,7 @@ module Antlr4::Runtime
         break if t.type == Token::EOF
 
         buf << t.text
-        i += 1
+        buf << i += 1
       end
       buf
     end

@@ -85,7 +85,6 @@ module Antlr4
     autoload :LL1Analyzer, 'antlr4/runtime/ll1_analyzer'
     autoload :LookaheadEventInfo, 'antlr4/runtime/lookahead_event_info'
     autoload :LoopEndState, 'antlr4/runtime/loop_end_state'
-    autoload :MurmurHash, 'antlr4/runtime/murmur_hash'
     autoload :NoViableAltException, 'antlr4/runtime/no_viable_alt_exception'
     autoload :NotSetTransition, 'antlr4/runtime/not_set_transition'
     autoload :ObjectEqualityComparator, 'antlr4/runtime/object_equality_comparator'

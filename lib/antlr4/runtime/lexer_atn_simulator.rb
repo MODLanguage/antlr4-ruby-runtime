@@ -348,26 +348,27 @@ module Antlr4::Runtime
 
     def epsilon_target(input, config, t, configs, speculative, treat_eof_as_epsilon)
       c = nil
-      case t.serialization_type
-      when Transition::RULE
+      serialization_type = t.serialization_type
+
+      if serialization_type == Transition::RULE
         rule_transition = t
         new_context = SingletonPredictionContext.new(config.context, rule_transition.follow_state.state_number)
         c = LexerATNConfig.new
         c.lexer_atn_config5(config, t.target, new_context)
 
-      when Transition::PRECEDENCE
+      elsif serialization_type == Transition::PRECEDENCE
 
         raise UnsupportedOperationException, 'Precedence predicates are not supported in lexers.'
 
-      when Transition::PREDICATE
+      elsif serialization_type == Transition::PREDICATE
         pt = t
-        puts('EVAL rule ' + pt.rule_index + ':' + pt.pred_index) if @@debug
+        # puts('EVAL rule ' + pt.rule_index + ':' + pt.pred_index) if @@debug
         configs.has_semantic_context = true
         if evaluate_predicate(input, pt.rule_index, pt.pred_index, speculative)
           c = LexerATNConfig.create_from_config(config, t.target)
         end
 
-      when Transition::ACTION
+      elsif serialization_type == Transition::ACTION
 
         if config.context.nil? || config.context.empty_path?
           # execute actions anywhere in the start rule for a token.
@@ -390,10 +391,10 @@ module Antlr4::Runtime
           c.lexer_atn_config3(config, t.target)
         end
 
-      when Transition::EPSILON
+      elsif serialization_type == Transition::EPSILON
         c = LexerATNConfig.new
         c.lexer_atn_config3(config, t.target)
-      when Transition::ATOM, Transition::RANGE, Transition::SET
+      elsif serialization_type == Transition::ATOM || serialization_type == Transition::RANGE || serialization_type == Transition::SET
         if treat_eof_as_epsilon
           if t.matches(CharStream.EOF, Lexer.MIN_CHAR_VALUE, Lexer.MAX_CHAR_VALUE)
             c = LexerATNConfig.create_from_config(config, t.target)

@@ -24,7 +24,7 @@ module Antlr4::Runtime
     def hash
       return @_hash unless @_hash.nil?
 
-      hash_code = MurmurHash.hash_int_obj(offset, action)
+      hash_code = RumourHash.calculate([offset, action])
 
       if !@_hash.nil?
         if hash_code == @_hash

@@ -108,7 +108,7 @@ module Antlr4::Runtime
         i += 1
       end
 
-      @_hash = MurmurHash.hash_objs(objs)
+      @_hash = RumourHash.calculate(objs)
     end
 
     def ==(o)

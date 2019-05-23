@@ -390,15 +390,15 @@ module Antlr4::Runtime
     def self.calculate_empty_hash_code
       return @_hash unless @_hash.nil?
 
-      @_hash = MurmurHash.hash_int(INITIAL_HASH)
+      @_hash = RumourHash.calculate([INITIAL_HASH])
     end
 
     def self.calculate_hash_code1(parent, return_state)
-      MurmurHash.hash_int_obj(return_state, parent)
+      RumourHash.calculate([return_state, parent])
     end
 
     def self.calculate_hash_code2(parents, return_states)
-      MurmurHash.hash_ints_objs(return_states, parents)
+      RumourHash.calculate(return_states + parents)
     end
   end
 end

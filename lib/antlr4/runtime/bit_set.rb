@@ -1,7 +1,3 @@
-require 'rumourhash/rumourhash'
-
-include RumourHash
-
 module Antlr4::Runtime
 
   class BitSet
@@ -33,7 +29,7 @@ module Antlr4::Runtime
     end
 
     def cardinality
-      bit_count(@bits)
+      RumourHash.bit_count(@bits)
     end
 
     def or(bit_set)
