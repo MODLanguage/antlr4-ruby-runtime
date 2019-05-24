@@ -1,5 +1,9 @@
 0.2.5
 ===
+- Minor bug when reporting errors
+
+0.2.5
+===
 - Bug fix in buffered_token_stream.rb
 - Bug fix in common_token.rb
 
