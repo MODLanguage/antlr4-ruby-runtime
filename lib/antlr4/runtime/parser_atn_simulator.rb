@@ -115,10 +115,6 @@ module Antlr4::Runtime
           # ATN states in SLL implies LL will also get nowhere.
           # If conflict in states that dip out, choose min since we
           # will get error no matter what.
-          input.seek(start_index)
-          alt = syn_valid_or_sem_invalid_alt_that_finished_decision_entry_rule(previous_d.configs, outer_ctx)
-          return alt if alt != ATN::INVALID_ALT_NUMBER
-
           exc = NoViableAltException.new
           exc.recognizer = @parser
           exc.input = input
@@ -126,6 +122,11 @@ module Antlr4::Runtime
           exc.start_token = input.get(start_index)
           exc.offending_token = input.lt(1)
           exc.dead_end_configs = previous_d.configs
+
+          input.seek(start_index)
+          alt = syn_valid_or_sem_invalid_alt_that_finished_decision_entry_rule(previous_d.configs, outer_ctx)
+          return alt if alt != ATN::INVALID_ALT_NUMBER
+
           raise exc
         end
 

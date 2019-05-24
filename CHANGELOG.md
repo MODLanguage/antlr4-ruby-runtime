@@ -1,6 +1,6 @@
 0.2.5
 ===
-- Minor bug when reporting errors
+- Minor bugs when reporting errors
 
 0.2.5
 ===
