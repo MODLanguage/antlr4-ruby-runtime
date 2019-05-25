@@ -1,3 +1,7 @@
+0.2.7
+===
+- In C extension, move `for` loop variable declaration outside the loop - AWS didn't like it.
+
 0.2.6
 ===
 - Minor bugs when reporting errors

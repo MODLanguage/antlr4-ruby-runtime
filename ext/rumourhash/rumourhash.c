@@ -60,7 +60,8 @@ static VALUE rumour_hash_calculate(int argc, VALUE* argv, VALUE self) {
         hash = NUM2LONG(seed);
     }
 
-    for (int i = 0; i < RARRAY_LEN(itemsv); i ++) {
+    int i;
+    for (i = 0; i < RARRAY_LEN(itemsv); i ++) {
         VALUE current = RARRAY_AREF(itemsv, i);
         long val;
 
