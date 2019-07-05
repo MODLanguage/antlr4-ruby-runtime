@@ -1,3 +1,7 @@
+0.2.8
+===
+- Change certain error messages to match the format produced by the Java runtime.
+
 0.2.7
 ===
 - In C extension, move `for` loop variable declaration outside the loop - AWS didn't like it.

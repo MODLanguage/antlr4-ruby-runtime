@@ -348,8 +348,8 @@ module Antlr4::Runtime
     end
 
     def to_string_from_vocabulary(vocabulary)
-      buf = ''
-      return 'end' if @intervals.nil? || @intervals.empty?
+      buf = '{'
+      return '{end}' if @intervals.nil? || @intervals.empty?
 
       buf << '' if size > 1
       i = 0
@@ -367,10 +367,10 @@ module Antlr4::Runtime
             j += 1
           end
         end
-        buf << ', ' if i < @intervals.length
+        buf << ', ' if i < (@intervals.length - 1)
         i += 1
       end
-      buf << 'end' if size > 1
+      buf << '}' if size > 1
       buf
     end
 
