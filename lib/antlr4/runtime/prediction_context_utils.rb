@@ -4,6 +4,8 @@ module Antlr4::Runtime
     INITIAL_HASH = 1
     EMPTY_RETURN_STATE = Integer::MAX
 
+    @@_hash = nil
+
     def self.from_rule_context(atn, outer_ctx)
       outer_ctx = ParserRuleContext::EMPTY if outer_ctx.nil?
 
@@ -388,9 +390,9 @@ module Antlr4::Runtime
     end
 
     def self.calculate_empty_hash_code
-      return @_hash unless @_hash.nil?
+      return @@_hash unless @@_hash.nil?
 
-      @_hash = RumourHash.calculate([INITIAL_HASH])
+      @@_hash = RumourHash.calculate([INITIAL_HASH])
     end
 
     def self.calculate_hash_code1(parent, return_state)

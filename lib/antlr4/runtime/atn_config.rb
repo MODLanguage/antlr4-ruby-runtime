@@ -12,6 +12,8 @@ module Antlr4::Runtime
     def initialize
       @reaches_into_outer_context = 0
       @alt = 0
+      @_hash = nil
+      @_bucket_hash = nil
     end
 
     def bucket_hash

@@ -16,6 +16,7 @@ module Antlr4::Runtime
         @rule_index = rule_index
         @pred_index = pred_index
         @is_ctx_dependent = is_ctx_dependent
+        @_hash = nil
       end
 
       def eval(parser, parser_call_stack)

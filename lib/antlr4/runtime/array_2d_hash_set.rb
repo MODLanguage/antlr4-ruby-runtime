@@ -145,7 +145,7 @@ module Antlr4::Runtime
 
     def iterator
       a = to_a
-      a.sort! {|a, b| @comparator.compare(a, b)} unless @comparator.nil?
+      a.sort! {|x, y| @comparator.compare(x, y)} unless @comparator.nil?
       SetIterator.new(a, self)
     end
 

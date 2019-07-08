@@ -36,7 +36,6 @@ module Antlr4
     autoload :BufferedTokenStream, 'antlr4/runtime/buffered_token_stream'
     autoload :CharStream, 'antlr4/runtime/char_stream'
     autoload :CharStreams, 'antlr4/runtime/char_streams'
-    autoload :Chunk, 'antlr4/runtime/chunk'
     autoload :CodePointCharStream, 'antlr4/runtime/code_point_char_stream'
     autoload :CommonToken, 'antlr4/runtime/common_token'
     autoload :CommonTokenFactory, 'antlr4/runtime/common_token_factory'

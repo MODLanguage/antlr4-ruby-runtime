@@ -1,3 +1,7 @@
+0.2.9
+===
+- Minor changes to clear some ruby interpreter warnings.
+
 0.2.8
 ===
 - Change certain error messages to match the format produced by the Java runtime.

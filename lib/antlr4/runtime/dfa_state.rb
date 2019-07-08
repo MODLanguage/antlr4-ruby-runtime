@@ -20,6 +20,7 @@ module Antlr4::Runtime
       @is_accept_state = false
       @edges = []
       @state_number = -1
+      @_hash = nil
 
       if x.nil?
         @configs = ATNConfigSet.new

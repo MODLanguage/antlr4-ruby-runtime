@@ -3,6 +3,10 @@ module Antlr4::Runtime
   class LexerSkipAction < LexerAction
     include Singleton
 
+    def initialize
+      @_hash = nil
+    end
+
     def action_type
       LexerActionType::SKIP
     end

@@ -51,7 +51,7 @@ module Antlr4::Runtime
       @s0.edges[precedence] = start_state
     end
 
-    def precedence_dfa(precedence_dfa)
+    def set_precedence_dfa(precedence_dfa)
       if precedence_dfa != @precedence_dfa
         raise UnsupportedOperationException, 'The precedence_dfa field cannot change after a DFA is constructed.'
       end
