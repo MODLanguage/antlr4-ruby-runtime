@@ -124,7 +124,7 @@ module Antlr4::Runtime
     def subtract(a)
       return IntervalSet.new self if a.nil? || a.is_nil
 
-      return subtract_interval_sets(self, a)
+      subtract_interval_sets(self, a)
     end
 
     def subtract_interval_sets(left, right)
@@ -297,7 +297,7 @@ module Antlr4::Runtime
 
       hash_code = RumourHash.calculate(ints)
 
-      if !@_hash.nil?
+      unless @_hash.nil?
         if hash_code == @_hash
           puts 'Same hash_code for IntervalSet'
         else

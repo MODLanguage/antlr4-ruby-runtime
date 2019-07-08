@@ -23,7 +23,7 @@ module Antlr4::Runtime
     def hash
       hash_code = RumourHash.hash([@a, @b, @c])
 
-      if !@_hash.nil?
+      unless @_hash.nil?
         if hash_code == @_hash
           puts 'Same hash_code for Triple'
         else

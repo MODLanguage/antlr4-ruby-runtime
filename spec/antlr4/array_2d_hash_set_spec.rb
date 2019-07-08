@@ -1,4 +1,4 @@
-require 'spec_helper'
+require './spec/spec_helper'
 
 RSpec.describe Antlr4::Runtime do
 
@@ -39,18 +39,6 @@ RSpec.describe Antlr4::Runtime do
     expect(s.size).to eq(100)
   end
 
-  it "can hash an Array2DHashSet" do
-    s = Antlr4::Runtime::Array2DHashSet.new(nil, 2, 2)
-
-    i = 0
-    while i < 10
-      s.add('TEST_' + i.to_s)
-      i += 1
-    end
-
-    expect(s.hash).to eq(s.hash)
-  end
-
   it "can compare Array2DHashSets" do
     s1 = Antlr4::Runtime::Array2DHashSet.new(nil, 2, 2)
     s2 = Antlr4::Runtime::Array2DHashSet.new(nil, 2, 2)
@@ -77,7 +65,7 @@ RSpec.describe Antlr4::Runtime do
 
     result = []
     i = s1.iterator
-    while (i.has_next)
+    while i.has_next
       result << i.next
     end
 
@@ -97,7 +85,7 @@ RSpec.describe Antlr4::Runtime do
 
     result = []
     i = s1.iterator
-    while (i.has_next)
+    while i.has_next
       result << i.next
     end
 
@@ -117,7 +105,7 @@ RSpec.describe Antlr4::Runtime do
 
     result = []
     i = s1.iterator
-    while (i.has_next)
+    while i.has_next
       result << i.next
     end
 
@@ -137,7 +125,7 @@ RSpec.describe Antlr4::Runtime do
 
     result = []
     i = s1.iterator
-    while (i.has_next)
+    while i.has_next
       result << i.next
     end
 
@@ -157,7 +145,7 @@ RSpec.describe Antlr4::Runtime do
 
     result = []
     i = s1.iterator
-    while (i.has_next)
+    while i.has_next
       result << i.next
     end
 

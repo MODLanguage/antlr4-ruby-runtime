@@ -20,7 +20,7 @@ module Antlr4::Runtime
 
       hash_code = RumourHash.calculate([action_type])
 
-      if !@_hash.nil?
+      unless @_hash.nil?
         if hash_code == @_hash
           puts 'Same hash_code for LexerPopModeAction'
         else

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require './spec/spec_helper'
 
 RSpec.describe Antlr4::Runtime do
 
@@ -17,7 +17,7 @@ RSpec.describe Antlr4::Runtime do
   end
 
   it "can create IntervalSet with no params" do
-    set = Antlr4::Runtime::IntervalSet.new()
+    set = Antlr4::Runtime::IntervalSet.new
     expect(set.intervals).not_to be(nil)
     expect(set.intervals.length).to eq(0)
   end
@@ -291,15 +291,6 @@ RSpec.describe Antlr4::Runtime do
 
     expect(set1.max_element).to eq(19)
     expect(set1.min_element).to eq(2)
-  end
-
-  it "can generate a hash value" do
-    set1 = Antlr4::Runtime::IntervalSet.new(2, 4)
-    set1.add_interval(Antlr4::Runtime::Interval.new(7,10))
-    set1.add_interval(Antlr4::Runtime::Interval.new(15,19))
-
-    expect(set1.hash).not_to be(nil)
-    expect(set1.hash).to eq(1239020189172060483)
   end
 
   it "can convert an IntervalSet top an integer list" do

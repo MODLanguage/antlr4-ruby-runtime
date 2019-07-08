@@ -1,5 +1,5 @@
 module Antlr4::Runtime
 
-  class ParseTree < SyntaxTree
+  class ParseTree
   end
 end

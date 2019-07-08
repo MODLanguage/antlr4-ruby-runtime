@@ -19,7 +19,7 @@ module Antlr4::Runtime
     def bucket_hash
       return @_bucket_hash unless @_bucket_hash.nil?
 
-      if !@_bucket_hash.nil?
+      unless @_bucket_hash.nil?
         if hash_code == @_bucket_hash
           puts 'Same hash_code for ATNConfig.bucket_hash'
         else
@@ -141,7 +141,7 @@ module Antlr4::Runtime
 
       hash_code = RumourHash.calculate([@state.state_number, @alt, @context, @semantic_context])
 
-      if !@_hash.nil?
+      unless @_hash.nil?
         if hash_code == @_hash
           puts 'Same hash_code for ATNConfig'
         else

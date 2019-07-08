@@ -1,6 +1,6 @@
 module Antlr4::Runtime
 
-  class TextChunk < Chunk
+  class TextChunk
     attr_reader :text
 
     def initialize(text)

@@ -246,8 +246,7 @@ module Antlr4::Runtime
       end
 
       # all adds to dfa are done after we've created full D state
-      d = add_dfa_edge(dfa, prev_d, t, d)
-      d
+      add_dfa_edge(dfa, prev_d, t, d)
     end
 
     def predicate_dfa_state(dfa_state, decision_state) # We need to test all predicates, even in DFA states that

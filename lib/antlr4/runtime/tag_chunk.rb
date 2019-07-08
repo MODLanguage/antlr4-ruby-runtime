@@ -1,6 +1,6 @@
 module Antlr4::Runtime
 
-  class TagChunk < Chunk
+  class TagChunk
     attr_reader :tag
     attr_reader :label
 

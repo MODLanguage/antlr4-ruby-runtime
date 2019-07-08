@@ -1,4 +1,4 @@
-require 'spec_helper'
+require './spec/spec_helper'
 
 RSpec.describe Antlr4::Runtime do
   it "has a version number" do

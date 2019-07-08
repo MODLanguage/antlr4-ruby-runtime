@@ -29,7 +29,7 @@ module Antlr4::Runtime
 
         hash_code = RumourHash.calculate([@rule_index, @pred_index, @is_ctx_dependent ? 1 : 0])
 
-        if !@_hash.nil?
+        unless @_hash.nil?
           if hash_code == @_hash
             puts 'Same hash_code for SemanticContext'
           else
@@ -47,7 +47,7 @@ module Antlr4::Runtime
       end
 
       def to_s
-        '' + @rule_index + ':' + @pred_index + 'end?'
+        '{' + @rule_index + ':' + @pred_index + '}?'
       end
     end
 
@@ -85,7 +85,7 @@ module Antlr4::Runtime
 
       # precedence >= _precedenceStack.peek()
       def to_s
-        '' + @precedence + '>=precend?'
+        '{' + @precedence + '>=prec}?'
       end
     end
 
@@ -126,7 +126,7 @@ module Antlr4::Runtime
 
       def hash
         hash_code = RumourHash.calculate(@opnds, AND.hash)
-        if !@_hash2.nil?
+        unless @_hash2.nil?
           if hash_code == @_hash2
             puts 'Same hash_code for SemanticContext_2'
           else
@@ -221,7 +221,7 @@ module Antlr4::Runtime
 
       def hash
         hash_code = MurmurHash.calculate(@opnds, OR.hash)
-        if !@_hash3.nil?
+        unless @_hash3.nil?
           if hash_code == @_hash3
             puts 'Same hash_code for SemanticContext_2'
           else

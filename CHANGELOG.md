@@ -1,6 +1,7 @@
 0.2.9
 ===
-- Minor changes to clear some ruby interpreter warnings.
+- Minor changes to clear some ruby interpreter and code smell warnings.
+- RSpecs now run properly in RubyMine
 
 0.2.8
 ===
