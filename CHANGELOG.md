@@ -1,3 +1,7 @@
+0.2.10
+===
+- Update Rake due to security advisory.
+
 0.2.9
 ===
 - Minor changes to clear some ruby interpreter and code smell warnings.
