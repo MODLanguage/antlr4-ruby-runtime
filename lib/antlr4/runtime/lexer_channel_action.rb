@@ -16,13 +16,13 @@ module Antlr4::Runtime
     end
 
     def execute(lexer)
-      lexer.setChannel(@channel)
+      lexer._channel = @channel
     end
 
     def hash
       return @_hash unless @_hash.nil?
 
-      hash_code = RumourHash.calculate([action_type.ordinal, channel])
+      hash_code = RumourHash.calculate([action_type, @channel])
 
       unless @_hash.nil?
         if hash_code == @_hash
