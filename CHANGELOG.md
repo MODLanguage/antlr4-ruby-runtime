@@ -1,3 +1,7 @@
+0.2.11
+===
+- Fix for channels, kindly provided by Jan Žák (zakjan).
+
 0.2.10
 ===
 - Update Rake due to security advisory.
