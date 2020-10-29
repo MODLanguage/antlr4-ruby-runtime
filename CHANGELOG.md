@@ -1,3 +1,7 @@
+0.2.12
+===
+- Another fix for channels, kindly provided by Jan Žák (zakjan).
+
 0.2.11
 ===
 - Fix for channels, kindly provided by Jan Žák (zakjan).
