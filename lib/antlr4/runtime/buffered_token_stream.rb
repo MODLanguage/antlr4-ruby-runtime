@@ -109,7 +109,7 @@ module Antlr4::Runtime
         t = @tokens[i]
         break if t.type == Token::EOF
 
-        subset.add(t)
+        subset << t
         i += 1
       end
       subset
@@ -177,7 +177,7 @@ module Antlr4::Runtime
       i = start
       while i <= stop
         t = @tokens[i]
-        filtered_tokens.add(t) if types.nil? || types.include?(t.type)
+        filtered_tokens << t if types.nil? || types.include?(t.type)
         i += 1
       end
       filtered_tokens = nil if filtered_tokens.empty?
@@ -186,7 +186,7 @@ module Antlr4::Runtime
 
     def get_tokens2(start, stop, ttype)
       s = Set.new
-      s.add(ttype)
+      s << ttype
       tokens1(start, stop, s)
     end
 
@@ -229,7 +229,7 @@ module Antlr4::Runtime
         raise IndexOutOfBoundsException, token_index + ' not in 0..' + (@tokens.length - 1)
       end
 
-      next_on_channel = next_token_on_channel(token_index + 1, Lexer.DEFAULT_TOKEN_CHANNEL)
+      next_on_channel = next_token_on_channel(token_index + 1, Lexer::DEFAULT_TOKEN_CHANNEL)
       from = token_index + 1
       # if none onchannel to right, next_on_channel=-1 so set to = last token
       to = next_on_channel == -1 ? size - 1 : next_on_channel
@@ -252,7 +252,7 @@ module Antlr4::Runtime
         return nil
       end
 
-      prev_on_channel = previous_token_on_channel(token_index - 1, Lexer.DEFAULT_TOKEN_CHANNEL)
+      prev_on_channel = previous_token_on_channel(token_index - 1, Lexer::DEFAULT_TOKEN_CHANNEL)
       return nil if prev_on_channel == token_index - 1
 
       # if none onchannel to left, prev_on_channel=-1 then from=0
@@ -272,9 +272,9 @@ module Antlr4::Runtime
       while i <= to
         t = @tokens[i]
         if channel == -1
-          hidden.add(t) if t.channel != Lexer.DEFAULT_TOKEN_CHANNEL
+          hidden << t if t.channel != Lexer::DEFAULT_TOKEN_CHANNEL
         else
-          hidden.add(t) if t.channel == channel
+          hidden << t if t.channel == channel
         end
         i += 1
       end
